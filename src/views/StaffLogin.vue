@@ -9,12 +9,10 @@ const schema = yup.object().shape({
   staffId: yup.string().required("Staff ID is required"),
   password: yup.string().required("Password is required"),
 });
-const isLoading = ref(false);
 
 async function onSubmit(values: any, { setErrors }) {
   const authStore = useAuthStore();
   const { staffId, password } = values;
-  isLoading.value = true;
 
   try {
     let resp = await authStore.signin(staffId, password);
@@ -22,7 +20,6 @@ async function onSubmit(values: any, { setErrors }) {
     setErrors({ apiError: error });
     console.log(error);
   } finally {
-    isLoading.value = false;
   }
 }
 </script>
@@ -69,7 +66,9 @@ async function onSubmit(values: any, { setErrors }) {
             >Forgot password?</a
           >
         </div>
-        <LoadingButton :loading="isLoading" :class="'bg-altara-blue text-white'"
+        <LoadingButton
+          :loading="useAuthStore().isLoading"
+          :class="'bg-altara-blue text-white'"
           >Login</LoadingButton
         >
       </Form>

@@ -29,6 +29,9 @@ router.beforeEach(async (to, from) => {
     auth.returnUrl = to.fullPath;
     return '/login';
   }
+  if(to.fullPath === '/login' && auth.user?.auth){
+    return '/';
+  }
 })
 
 export default router;
