@@ -9,7 +9,6 @@ const base_url = import.meta.env.VITE_API_URL;
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
-        isLoading: false,
         user: JSON.parse(localStorage.getItem('user')),
         returnUrl: null
     }),
@@ -17,7 +16,6 @@ export const useAuthStore = defineStore("auth", {
     actions: {
         async signin(staffId: string, password: string) {
             axios.post(`${base_url}/login`, { staff_id: staffId, password: password }).then((res: any) => {
-                this.isLoading = true;
                 this.user = res.data;
                 localStorage.setItem('user', JSON.stringify(this.user));
                 createToast("Login Successful", {
@@ -31,8 +29,6 @@ export const useAuthStore = defineStore("auth", {
                     type: "danger",
                   });
                  
-            }).finally(() => {
-                this.isLoading = false;
             });
            
         },
