@@ -2,35 +2,43 @@
   <div class="font-outfit pt-12 flex flex-col">
     <div class="font-thin my-3"><span class="subtitle">Get Started</span></div>
     <div class="my-5">
-      <span class="mr-3"
-        ><img src="../assets/element-equal.svg" class="inline" alt="icon"
-      /></span>
-      Dashboard
+      <RouterLink to="/">
+        <span class="mr-3"
+          ><img src="../assets/element-equal.svg" class="inline" alt="icon"
+        /></span>
+        Dashboard
+      </RouterLink>
     </div>
 
     <div class="my-10"><span class="subtitle">Activities</span></div>
     <ul class="flex flex-col">
       <li class="my-3">
-        <a href="#"
+        <RouterLink :to="'roles'">
+          <img src="../assets/profile-circle.svg" class="inline mr-3" />Roles
+        </RouterLink>
+      </li>
+      <li class="my-3">
+        <RouterLink :to="'people'"
           ><img
-            src="../assets/profile-circle.svg"
+            src="../assets/note-add.svg"
             class="inline mr-3"
-          />Roles</a
+          />People</RouterLink
         >
       </li>
       <li class="my-3">
-        <a href="#"
-          ><img src="../assets/note-add.svg" class="inline mr-3" />People</a
+        <RouterLink to="accounting"
+          ><img
+            src="../assets/award.svg"
+            class="inline mr-3"
+          />Accounting</RouterLink
         >
       </li>
       <li class="my-3">
-        <a href="#"
-          ><img src="../assets/award.svg" class="inline mr-3" />Accounting</a
-        >
-      </li>
-      <li class="my-3">
-        <a href="#">
-          <img src="../assets/setting-2.svg" class="inline mr-3" />Settings</a
+        <RouterLink to="settings"
+          ><img
+            src="../assets/setting-2.svg"
+            class="inline mr-3"
+          />Settings</RouterLink
         >
       </li>
     </ul>
@@ -52,7 +60,7 @@ const auth = useAuthStore();
 
 <style scoped>
 .subtitle {
-    font-weight: 400;
+  font-weight: 400;
   letter-spacing: 0.5em;
   line-height: 13px;
   text-transform: uppercase;
