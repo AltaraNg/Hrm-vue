@@ -12,7 +12,6 @@ export const get = (url: string) =>
     headers: { Authorization: `Bearer ${auth.user?.api_token}` },
   });
 export const post = (url: string, data: object) => {
-  console.log(auth);
   return instance({
     method: "POST",
     url,

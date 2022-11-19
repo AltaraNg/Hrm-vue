@@ -15,7 +15,7 @@ export const useAuthStore = defineStore("auth", {
 
     actions: {
         async signin(staffId: string, password: string) {
-            axios.post(`${base_url}/login`, { staff_id: staffId, password: password }).then((res: any) => {
+            return axios.post(`${base_url}/auth/login`, { staff_id: staffId, password: password }).then((res: any) => {
                 this.user = res.data;
                 localStorage.setItem('user', JSON.stringify(this.user));
                 createToast("Login Successful", {
@@ -33,7 +33,7 @@ export const useAuthStore = defineStore("auth", {
            
         },
         logout() {
-            axios(
+            return axios(
                 {
                     url: `${base_url}/logout`,
                     method: 'POST',
