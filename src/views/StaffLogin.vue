@@ -1,23 +1,14 @@
 <script setup lang="ts">
-import { Form as VeeForm, Field } from "vee-validate";
-import { object, string } from "yup";
 import { useAuthStore } from "@/stores/auth";
-import LoadingButton from "@/components/LoadingButton.vue";
+import { ref } from "vue";
+const staffId = ref("");
+const password = ref("");
 
-const schema = object().shape({
-  staffId: string().required("Staff ID is required"),
-  password: string().required("Password is required"),
-});
-
-async function onSubmit(values: any, { setErrors }) {
+async function onSubmit(credentials: any) {
   const authStore = useAuthStore();
-  const { staffId, password } = values;
+  let { staffId, password } = credentials;
 
-  try {
-    await authStore.signin(staffId, password);
-  } catch (error) {
-    setErrors({ apiError: error });
-  }
+  return await authStore.signin(staffId, password);
 }
 </script>
 
@@ -29,53 +20,68 @@ async function onSubmit(values: any, { setErrors }) {
     <div
       class="lg:w-1/3 lg:m-auto lg:p-10 sm:w-2/3 sm:p-2 bg-white shadow-lg rounded-md sm:mx-5"
     >
-      <VeeForm
-        :validation-schema="schema"
-        v-slot="{ errors, isSubmitting, handleSubmit }"
+      <FormKit
+        type="form"
+        id="login-form"
+        submit-label="Login"
+        @submit="onSubmit"
+        :actions="false"
+        :classes="{
+          message: 'text-red-500 text-xs'
+        }"
       >
-        <form @submit="handleSubmit($event, onSubmit)">
-          <div class="text-center font-bold text-gray-900 my-2">
-            Log in to your account
-          </div>
-          <div class="my-3">
-            <label for="staffId" class="block text-xs my-1">Staff ID</label>
-            <Field
-              type="text"
-              name="staffId"
-              id="staff_id"
-              class="w-full border rounded py-2 px-2"
-            />
-            <pre class="text-xs text-red-500 font-outfit">{{
-              errors.staffId
-            }}</pre>
-          </div>
-          <div class="my-3">
-            <label for="password" class="block text-xs my-1">Password</label>
-            <Field
-              type="password"
-              name="password"
-              id="password"
-              class="w-full border rounded py-2 px-2"
-            />
-            <pre class="text-xs text-red-500 font-outfit">{{
-              errors.password
-            }}</pre>
-          </div>
+        <div class="text-center font-bold text-gray-900 my-2">
+          Log in to your account
+        </div>
+        <div class="my-3">
+          <FormKit
+            name="staffId"
+            type="text"
+            label="Staff ID"
+            v-model="staffId"
+            validation="required"
+            :classes="{
+              outer: 'w-full',
+              label: 'block font-outfit text-sm',
 
-          <div class="my-3 font-bold text-xs">
-            <a
-              :href="`https://play.altaracredit.com/password/forgot`"
-              class="font-bold"
-              >Forgot password?</a
-            >
-          </div>
-          <LoadingButton
-            :loading="isSubmitting"
-            :class="'bg-altara-blue text-white'"
-            >Login</LoadingButton
+              inner:
+                'border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500 w-full',
+              input:
+                'w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400',
+              help: 'text-xs text-gray-500',
+              message: 'text-red-500 text-xs',
+            }"
+          ></FormKit>
+        </div>
+        <div class="my-3">
+          <FormKit
+            name="password"
+            type="password"
+            label="Password"
+            v-model="password"
+            validation="required"
+            :classes="{
+              outer: 'w-full',
+              label: 'block mb-1 font-outfit text-sm',
+              inner:
+                'border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500',
+              input:
+                'w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400',
+              help: 'text-xs text-gray-500',
+              message: 'text-red-500 text-xs',
+            }"
+          ></FormKit>
+        </div>
+
+        <div class="my-3 font-bold text-xs">
+          <a
+            :href="`https://play.altaracredit.com/password/forgot`"
+            class="font-bold"
+            >Forgot password?</a
           >
-        </form>
-      </VeeForm>
+        </div>
+        <FormKit type="submit" label="Login" />
+      </FormKit>
     </div>
   </div>
 </template>

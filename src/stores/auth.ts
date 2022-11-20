@@ -37,7 +37,7 @@ export const useAuthStore = defineStore("auth", {
            
         },
         logout() {
-            axios(
+            return axios(
                 {
                     url: `${base_url}/logout`,
                     method: 'POST',
