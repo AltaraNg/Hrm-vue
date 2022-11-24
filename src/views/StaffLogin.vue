@@ -21,13 +21,14 @@ async function onSubmit(credentials: any) {
       class="lg:w-1/3 lg:m-auto lg:p-10 sm:w-2/3 sm:p-2 bg-white shadow-lg rounded-md sm:mx-5"
     >
       <FormKit
+        autocomplete="on"
         type="form"
         id="login-form"
         submit-label="Login"
         @submit="onSubmit"
         :actions="false"
         :classes="{
-          message: 'text-red-500 text-xs'
+          message: 'text-red-500 text-xs',
         }"
       >
         <div class="text-center font-bold text-gray-900 my-2">

@@ -8,3 +8,15 @@
   font-family: "OUTFIT";
   src: url("../../fonts/Outfit/Outfit-VariableFont_wght.ttf");
 }
+
+@layer components {
+  .my-table-spacing {
+    border-spacing: theme("spacing.3");
+  }
+}
+
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #ffffff;
+  outline: blue;
+}

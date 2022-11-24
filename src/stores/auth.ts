@@ -17,7 +17,7 @@ export const useAuthStore = defineStore("auth", {
     actions: {
         async signin(staffId: string, password: string) {
             axios.post(`${base_url}/auth/login`, { staff_id: staffId, password: password }).then((res: any) => {
-                let {user, token} = res.data?.data;
+                let { user, token } = res.data?.data;
                 localStorage.setItem('user', JSON.stringify(user));
                 localStorage.setItem('token', JSON.stringify(token));
                 this.user = user;
@@ -25,29 +25,29 @@ export const useAuthStore = defineStore("auth", {
                 createToast("Login Successful", {
                     position: "top-left",
                     type: "success",
-                  });
+                });
                 router.push(this.returnUrl || '/');
             }).catch((err: any) => {
                 createToast(err.response.data.message, {
                     position: "top-left",
                     type: "danger",
-                  });
-                 
+                });
+
             });
-           
+
         },
         logout() {
             return axios(
                 {
-                    url: `${base_url}/logout`,
+                    url: `${base_url}/auth/logout`,
                     method: 'POST',
-                    headers: { Authorization: `Bearer ${this.user.api_token}` }
+                    headers: { Authorization: `Bearer ${this.token}` }
                 }).then(res => {
                     this.user = null;
-                    createToast("Logged oout successfully", {
+                    createToast("Logged out successfully", {
                         position: "top-left",
                         type: "success",
-                      });
+                    });
 
                     localStorage.removeItem('user');
                     router.push('/login');

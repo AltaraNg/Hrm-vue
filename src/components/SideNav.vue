@@ -13,20 +13,20 @@
     <div class="my-10"><span class="subtitle">Activities</span></div>
     <ul class="flex flex-col">
       <li class="my-3">
-        <RouterLink :to="'roles'">
+        <RouterLink :to="'roles'" :active-class="'text-altara-blue font-bold'">
           <img src="../assets/profile-circle.svg" class="inline mr-3" />Roles
         </RouterLink>
       </li>
       <li class="my-3">
-        <RouterLink :to="'people'"
+        <RouterLink :to="'people'" :active-class="'text-altara-blue font-bold'"
           ><img
             src="../assets/note-add.svg"
             class="inline mr-3"
-          />People</RouterLink
+          />Employees</RouterLink
         >
       </li>
       <li class="my-3">
-        <RouterLink to="accounting"
+        <RouterLink to="accounting" :active-class="'text-altara-blue font-bold'"
           ><img
             src="../assets/award.svg"
             class="inline mr-3"
@@ -34,7 +34,7 @@
         >
       </li>
       <li class="my-3">
-        <RouterLink to="settings"
+        <RouterLink to="settings" :active-class="'text-altara-blue font-bold'"
           ><img
             src="../assets/setting-2.svg"
             class="inline mr-3"

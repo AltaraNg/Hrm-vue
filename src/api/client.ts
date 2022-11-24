@@ -9,14 +9,14 @@ export const get = (url: string) =>
   instance({
     method: "GET",
     url,
-    headers: { Authorization: `Bearer ${auth.user?.api_token}` },
+    headers: { Authorization: `Bearer ${auth.token}` },
   });
 export const post = (url: string, data: object) => {
   return instance({
     method: "POST",
     url,
     data,
-    headers: { Authorization: `Bearer ${auth?.user.api_token}` },
+    headers: { Authorization: `Bearer ${auth.token}` },
   });
 };
 
