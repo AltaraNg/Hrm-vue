@@ -1,17 +1,19 @@
 <template>
   <div class="flex justify-between font-outfit">
-    <div>
-      <img src="../assets/altara_log.png" alt="logo" width="100" height="80" />
+    <div class="self-center">
+      <img src="../assets/altara_log.png" alt="logo" width="75" height="50" />
     </div>
     <div class="flex">
       <div class="mx-2 px-2 self-center">
-        <font-awesome-icon
+        <!-- <font-awesome-icon
           icon="fa-solid fa-bell"
-          class="text-sm"
-        ></font-awesome-icon>
+          class="text-xs"
+        ></font-awesome-icon> -->
       </div>
-      <div class="rounded-full border text-sm self-center p-2">{{ avatar }}</div>
-      <div class="p-2 text-sm">
+      <div class="rounded-full border text-xs self-center p-2">
+        {{ avatar }}
+      </div>
+      <div class="p-2 text-xs">
         <div class="font-bold">{{ user.full_name }}</div>
         <div class="text-xs">Software Engineer</div>
       </div>

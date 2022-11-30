@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-row h-screen">
+  <div class="flex flex-row h-screen text-sm">
     <SideNav class="p-10 bg-sidebar-bg"></SideNav>
-    <div class="w-5/6 pl-6 py-2">
-      <DashboardHeader class="my-2"></DashboardHeader>
-      <hr class="border-slate-50 mb-8" />
+    <div class="w-5/6 pl-6">
+      <DashboardHeader class=""></DashboardHeader>
+      <hr class="border-slate-50 mb-5" />
       <RouterView></RouterView>
     </div>
   </div>

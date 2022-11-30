@@ -14,10 +14,10 @@
     <!--TODO ui for mobile-->
     <div class="sm:hidden"></div>
     <div
-      class="hidden lg:block my-2 py-7 px-14 border rounded-md shadow-md w-full"
+      class="hidden lg:block my-2 py-7 px-14 border rounded-md shadow-md w-full h-fit"
     >
       <table
-        class="border-collapse rounded-t font-bold w-full my-table-spacing"
+        class="border-collapse rounded-t font-bold w-full my-table-spacing text-xs mb-10"
       >
         <thead class="bg-sidebar-bg text-table-text rounded">
           <tr class="">
@@ -53,6 +53,9 @@
           </tr>
         </tbody>
       </table>
+      <div class="absolute bottom-0 w-11/12">
+        <PaginationComponent class=""></PaginationComponent>
+      </div>
     </div>
   </div>
 </template>
@@ -63,14 +66,15 @@ import { ref } from "vue";
 import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import ToggleButton from "@/components/buttons/ToggleButton.vue";
+import PaginationComponent from "@/components/PaginationComponent.vue";
 
-const roles = ref("");
+const roles = ref([]);
 const filterList = ref([
   { id: 1, name: "Role Name", value: "name" },
   { id: 2, name: "Permission", value: "permision" },
   { id: 3, name: "Status", value: "name" },
 ]);
-get("/roles").then((res) => {
+get("/roles?per_page=10").then((res) => {
   roles.value = res.data.data.roles;
 });
 </script>
