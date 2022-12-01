@@ -29,7 +29,7 @@
           </tr>
         </thead>
         <tbody class="text-table-text text-center">
-          <tr v-for="role in roles" :key="role.id">
+          <tr v-for="(role, index) in roles" :key="index">
             <td class="p-2 border border-t-0 border-l-0">{{ role.id }}</td>
             <td class="p-2 border border-t-0 w-1/4 text-left">
               {{ role.name }}
@@ -67,16 +67,26 @@ import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import ToggleButton from "@/components/buttons/ToggleButton.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
+import { createToast } from "mosha-vue-toastify";
+import "mosha-vue-toastify/dist/style.css";
 
-const roles = ref([]);
+const roles = ref();
 const filterList = ref([
   { id: 1, name: "Role Name", value: "name" },
   { id: 2, name: "Permission", value: "permision" },
   { id: 3, name: "Status", value: "name" },
 ]);
-get("/roles?per_page=10").then((res) => {
-  roles.value = res.data.data.roles;
-});
+get("/roles")
+  .then((res) => {
+    console.log(res);
+    roles.value = res.data.data[0].roles;
+  })
+  .catch((err) => {
+    createToast(err.response.data.message, {
+      position: "top-left",
+      type: "danger",
+    });
+  });
 </script>
 
 <style scoped></style>

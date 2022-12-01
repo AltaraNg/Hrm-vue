@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
+import type { AnyAaaaRecord } from "dns";
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
@@ -20,7 +21,7 @@ export const post = (url: string, data: object) => {
   });
 };
 
-export const interceptors = (cb) =>
+export const interceptors = (cb: any) =>
   instance.interceptors.response.use(
     (res) => res,
     (err) => {
