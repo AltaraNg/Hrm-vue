@@ -6,7 +6,7 @@ import { generateClasses } from '@formkit/themes'
 import App from "./App.vue";
 import router from "./router";
 
-import {vfmPlugin} from 'vue-final-modal';
+import { vfmPlugin } from 'vue-final-modal';
 
 
 import "./assets/main.css";
