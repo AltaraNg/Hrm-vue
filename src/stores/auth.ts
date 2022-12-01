@@ -37,23 +37,12 @@ export const useAuthStore = defineStore("auth", {
 
         },
         logout() {
-            return axios(
-                {
-                    url: `${base_url}/api/auth/logout`,
-                    method: 'POST',
-                    headers: { Authorization: `Bearer ${this.token}` }
-                }).then(res => {
-                    this.token = null;
-                    this.user = null;
-                    createToast("Logged out successfully", {
-                        position: "top-left",
-                        type: "success",
-                    });
+            this.token = null;
+            this.user = null;
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            router.push('/login');
 
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('token');
-                    router.push('/login');
-                })
 
         }
     }

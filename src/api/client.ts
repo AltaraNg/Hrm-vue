@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
+import router from "@/router";
 const auth = useAuthStore();
 
 const instance = axios.create({
@@ -30,11 +31,22 @@ export const post = (url: string, data: object) => {
   });
 };
 
+instance.interceptors.response.use(function (response){
+  return response;
+}, function(error){
+  console.log(error.response.status)
+  if(error.response.status === 401){
+    useAuthStore().logout();
+  }
+})
+
 export const interceptors = (cb: any) =>
   instance.interceptors.response.use(
     (res) => res,
     (err) => {
       cb(err);
+      console.log(err.response.status)
+      
       return Promise.reject(err);
     }
   );
