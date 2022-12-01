@@ -13,6 +13,7 @@ export const get = (url: string) =>
     url,
     headers: {
       Authorization: `Bearer ${auth.token}`, 'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     },
   });
@@ -22,8 +23,9 @@ export const post = (url: string, data: object) => {
     url,
     data,
     headers: {
-      Authorization: `Bearer ${auth.token}`, 'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${auth.token}`, 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': true,
       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+
     },
   });
 };
