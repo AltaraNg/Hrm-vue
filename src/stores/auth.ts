@@ -6,7 +6,7 @@ import "mosha-vue-toastify/dist/style.css";
 
 
 const base_url = import.meta.env.VITE_API_URL;
-let tokenFormLo = localStorage.getItem('token') || "";
+let tokenFormLo = localStorage.getItem('token') || '{}';
 let userFromLo = localStorage.getItem('user') || '{}';
 
 export const useAuthStore = defineStore("auth", {
