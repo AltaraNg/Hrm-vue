@@ -45,6 +45,7 @@ export const useAuthStore = defineStore("auth", {
                     method: 'POST',
                     headers: { Authorization: `Bearer ${this.token}` }
                 }).then(res => {
+                    this.token = null;
                     this.user = null;
                     createToast("Logged out successfully", {
                         position: "top-left",
@@ -52,6 +53,7 @@ export const useAuthStore = defineStore("auth", {
                     });
 
                     localStorage.removeItem('user');
+                    localStorage.removeItem('token');
                     router.push('/login');
                 })
 
