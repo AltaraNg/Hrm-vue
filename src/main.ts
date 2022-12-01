@@ -21,7 +21,8 @@ app.use(plugin, defaultConfig({
     }
 }));
 
-app.use(createPinia());
 app.use(router);
+app.use(createPinia());
+
 
 app.mount("#app");

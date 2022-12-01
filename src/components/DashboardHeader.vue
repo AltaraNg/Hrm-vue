@@ -21,7 +21,6 @@ import { ref, computed } from "vue";
 import { useAuthStore } from "@/stores/auth";
 const auth = useAuthStore();
 const user = ref(auth.user);
-console.log(user);
 const avatar = computed(() => {
   let split = user?.value?.full_name.split(" ");
 

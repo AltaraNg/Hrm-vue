@@ -2,12 +2,9 @@ import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
 const auth = useAuthStore();
 
-let instance = axios.create({
+const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  headers: {
-    'Access-Control-Allow-Credentials': true,
-    Authorization: `Bearer ${auth.token}`,
-  }
+ 
 
 });
 
@@ -15,6 +12,10 @@ export const get = (url: string) =>
   instance({
     method: "GET",
     url,
+    headers: {
+      'Access-Control-Allow-Credentials': true,
+      Authorization: `Bearer ${auth.token}`,
+    }
 
   });
 export const post = (url: string, data: object) => {
@@ -22,6 +23,10 @@ export const post = (url: string, data: object) => {
     method: "POST",
     url,
     data,
+    headers: {
+      'Access-Control-Allow-Credentials': true,
+      Authorization: `Bearer ${auth.token}`,
+    }
   });
 };
 

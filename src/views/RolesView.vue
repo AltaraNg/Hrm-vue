@@ -74,7 +74,6 @@ const filterList = ref([
 ]);
 get("api/roles")
   .then((res) => {
-    console.log(res);
     roles.value = res.data.data[0].roles;
   })
   .catch((err) => {
