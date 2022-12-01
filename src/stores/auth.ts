@@ -6,19 +6,17 @@ import "mosha-vue-toastify/dist/style.css";
 
 
 const base_url = import.meta.env.VITE_API_URL;
-let tokenFormLo = localStorage.getItem('token') || '{}';
-let userFromLo = localStorage.getItem('user') || '{}';
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
-        token: JSON.parse(tokenFormLo),
-        user: JSON.parse(userFromLo),
+        token: JSON.parse(localStorage.getItem('token') || '{}'),
+        user: JSON.parse(localStorage.getItem('user') || '{}'),
         returnUrl: ""
     }),
 
     actions: {
         async signin(staffId: string, password: string) {
-            axios.post(`${base_url}/auth/login`, { staff_id: staffId, password: password }).then((res: any) => {
+            axios.post(`${base_url}/api/auth/login`, { staff_id: staffId, password: password }).then((res: any) => {
                 let { user, token } = res.data?.data;
                 localStorage.setItem('user', JSON.stringify(user));
                 localStorage.setItem('token', JSON.stringify(token));
@@ -39,21 +37,12 @@ export const useAuthStore = defineStore("auth", {
 
         },
         logout() {
-            return axios(
-                {
-                    url: `${base_url}/auth/logout`,
-                    method: 'POST',
-                    headers: { Authorization: `Bearer ${this.token}` }
-                }).then(res => {
-                    this.user = null;
-                    createToast("Logged out successfully", {
-                        position: "top-left",
-                        type: "success",
-                    });
+            this.token = null;
+            this.user = null;
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            router.push('/login');
 
-                    localStorage.removeItem('user');
-                    router.push('/login');
-                })
 
         }
     }

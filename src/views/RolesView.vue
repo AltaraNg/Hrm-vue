@@ -67,7 +67,6 @@ import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import ToggleButton from "@/components/buttons/ToggleButton.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
-import { createToast } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 
 const roles = ref();
@@ -76,16 +75,12 @@ const filterList = ref([
   { id: 2, name: "Permission", value: "permision" },
   { id: 3, name: "Status", value: "name" },
 ]);
-get("/roles")
+get("api/roles")
   .then((res) => {
-    console.log(res);
     roles.value = res.data.data[0].roles;
   })
   .catch((err) => {
-    createToast(err.response.data.message, {
-      position: "top-left",
-      type: "danger",
-    });
+    console.log(err, "here");
   });
 </script>
 

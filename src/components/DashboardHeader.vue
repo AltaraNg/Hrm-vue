@@ -27,7 +27,7 @@ import { useAuthStore } from "@/stores/auth";
 const auth = useAuthStore();
 const user = ref(auth.user);
 const avatar = computed(() => {
-  let split = user.value.full_name.split(" ");
+  let split = user?.value?.full_name.split(" ");
 
   return `${split[0].slice(0, 1)}${split[1].slice(0, 1)}`;
 });
