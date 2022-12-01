@@ -5,10 +5,7 @@
     </div>
     <div class="flex">
       <div class="mx-2 px-2 self-center">
-        <font-awesome-icon
-          icon="fa-solid fa-bell"
-          class="text-sm"
-        ></font-awesome-icon>
+        
       </div>
       <div class="rounded-full border text-sm self-center p-2">{{ avatar }}</div>
       <div class="p-2 text-sm">
