@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
 const auth = useAuthStore();
 
-const instance = axios.create({
+let instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Access-Control-Allow-Credentials': true,

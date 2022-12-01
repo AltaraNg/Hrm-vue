@@ -18,7 +18,7 @@ export const useAuthStore = defineStore("auth", {
 
     actions: {
         async signin(staffId: string, password: string) {
-            axios.post(`${base_url}/auth/login`, { staff_id: staffId, password: password }).then((res: any) => {
+            axios.post(`${base_url}/api/auth/login`, { staff_id: staffId, password: password }).then((res: any) => {
                 let { user, token } = res.data?.data;
                 localStorage.setItem('user', JSON.stringify(user));
                 localStorage.setItem('token', JSON.stringify(token));
@@ -41,7 +41,7 @@ export const useAuthStore = defineStore("auth", {
         logout() {
             return axios(
                 {
-                    url: `${base_url}/auth/logout`,
+                    url: `${base_url}/api/auth/logout`,
                     method: 'POST',
                     headers: { Authorization: `Bearer ${this.token}` }
                 }).then(res => {

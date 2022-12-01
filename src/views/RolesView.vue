@@ -72,7 +72,7 @@ const filterList = ref([
   { id: 2, name: "Permission", value: "permision" },
   { id: 3, name: "Status", value: "name" },
 ]);
-get("/roles")
+get("api/roles")
   .then((res) => {
     console.log(res);
     roles.value = res.data.data[0].roles;
