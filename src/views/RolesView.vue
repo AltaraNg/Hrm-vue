@@ -29,7 +29,7 @@
           </tr>
         </thead>
         <tbody class="text-table-text text-center">
-          <tr v-for="role in roles" :key="role.id">
+          <tr v-for="(role, index) in roles" :key="index">
             <td class="p-2 border border-t-0 border-l-0">{{ role.id }}</td>
             <td class="p-2 border border-t-0 w-1/4 text-left">
               {{ role.name }}
@@ -66,7 +66,7 @@ import ToggleButton from "@/components/buttons/ToggleButton.vue";
 import { createToast } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 
-const roles = ref("");
+const roles = ref();
 const filterList = ref([
   { id: 1, name: "Role Name", value: "name" },
   { id: 2, name: "Permission", value: "permision" },

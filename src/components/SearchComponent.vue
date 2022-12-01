@@ -51,9 +51,9 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-defineProps({
-  filterList: Array,
-});
+defineProps<{
+  filterList?: any;
+}>();
 
 const showModal = ref(false);
 
