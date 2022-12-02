@@ -6,6 +6,7 @@
         <div class="relative">
           <!-- input -->
           <input
+            @click="$emit('clicked')"
             type="checkbox"
             id="toggleB"
             class="sr-only"
@@ -25,12 +26,18 @@
 </template>
 
 <script setup lang="ts">
+
 defineProps({
   initialVal: {
     type: Boolean,
     default: true,
   },
+  id: {
+    type: Number,
+    required: true,
+  },
 });
+
 </script>
 
 <style scoped></style>

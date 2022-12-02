@@ -7,7 +7,7 @@
           <SearchComponent :filter-list="filterList"></SearchComponent>
         </div>
         <div class="mx-2">
-          <AddButton><template v-slot:title>Add Employee</template></AddButton>
+          <AddButton><template v-slot:title>Add Role</template></AddButton>
         </div>
       </div>
     </div>
@@ -37,7 +37,13 @@
             <td class="p-2 border border-t-0 text-left">
               {{ role.permissions }}
             </td>
-            <td class="p-2 border border-t-0"><ToggleButton></ToggleButton></td>
+            <td class="p-2 border border-t-0">
+              <ToggleButton
+                @clicked="clickAction"
+                :id="index"
+                :initial-val="toggleClick"
+              ></ToggleButton>
+            </td>
             <td class="p-2 border border-t-0 border-r-0 w-1/5">
               <img
                 src="@/assets/delete_icon.svg"
@@ -70,6 +76,7 @@ import PaginationComponent from "@/components/PaginationComponent.vue";
 import "mosha-vue-toastify/dist/style.css";
 
 const roles = ref();
+const toggleClick = ref(true);
 const filterList = ref([
   { id: 1, name: "Role Name", value: "name" },
   { id: 2, name: "Permission", value: "permision" },
@@ -82,6 +89,10 @@ get("api/roles")
   .catch((err) => {
     console.log(err, "here");
   });
+
+const clickAction = () => {
+  toggleClick.value = !toggleClick.value;
+};
 </script>
 
 <style scoped></style>
