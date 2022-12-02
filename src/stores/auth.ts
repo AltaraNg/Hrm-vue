@@ -9,8 +9,8 @@ const base_url = import.meta.env.VITE_API_URL;
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
-        token: JSON.parse(localStorage.getItem('token') || '{}'),
-        user: JSON.parse(localStorage.getItem('user') || '{}'),
+        token: JSON.parse(localStorage.getItem('token') || 'null'),
+        user: JSON.parse(localStorage.getItem('user') || 'null'),
         returnUrl: ""
     }),
 
