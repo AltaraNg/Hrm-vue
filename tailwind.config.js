@@ -8,7 +8,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        "login-bg": "url('./src/assets/altara_bg.svg')",
+        "login-bg": "url('/img/altara_bg.svg')",
       },
       colors: {
         "altara-bg": "#F7F7FF",
