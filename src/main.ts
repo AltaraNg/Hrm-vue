@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { plugin, defaultConfig } from '@formkit/vue'
 import { generateClasses } from '@formkit/themes'
+import * as globalFunctions from '@/utilities/globalFunctions'
 
 import App from "./App.vue";
 import router from "./router";
@@ -22,6 +23,7 @@ app.use(plugin, defaultConfig({
         })
     }
 }));
+app.provide('globalFunctions', globalFunctions);
 
 app.use(vfmPlugin({
     key: '$vfm',
