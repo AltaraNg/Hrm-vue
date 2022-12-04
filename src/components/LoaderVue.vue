@@ -8,6 +8,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { useGeneralStore } from "@/stores/generalStore";
 import { storeToRefs } from "pinia";
