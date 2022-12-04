@@ -9,7 +9,11 @@
             <SearchComponent :filter-list="filterList"></SearchComponent>
           </div>
           <div class="mx-2">
-            <AddButton><template v-slot:title>Add Role</template></AddButton>
+            <RouterLink :to="'/createRole'"
+              ><AddButton
+                ><template v-slot:title>Add Role</template></AddButton
+              ></RouterLink
+            >
           </div>
         </div>
       </div>

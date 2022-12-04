@@ -4,8 +4,10 @@ import LoaderVue from "./components/LoaderVue.vue";
 </script>
 
 <template>
-  <LoaderVue></LoaderVue>
-  <RouterView />
+  <div class="bg-white">
+    <LoaderVue></LoaderVue>
+    <RouterView />
+  </div>
 </template>
 
 <style scoped></style>

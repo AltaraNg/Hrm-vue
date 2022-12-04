@@ -3,10 +3,12 @@ import StaffLogin from "@/views/StaffLogin.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const DashBoard = () => import("@/views/DashBoard.vue");
-const Roles = () => import("@/views/RolesView.vue");
+const Roles = () => import("@/views/RoleModule/RolesView.vue");
 const Accounting = () => import("@/views/AccountingView.vue");
 const People = () => import("@/views/PeoplesView.vue");
 const Settings = () => import("@/views/SettingsView.vue");
+const CreateRole = () => import("@/views/RoleModule/CreateRole.vue");
+const Index = () => import("@/views/IndexView.vue")
 
 
 const router = createRouter({
@@ -18,6 +20,11 @@ const router = createRouter({
       name: "Dashboard",
       component: DashBoard,
       children: [
+        {
+          path: "index",
+          component: Index,
+          name: "Index"
+        },
         {
           path: "roles",
           component: Roles,
@@ -40,9 +47,19 @@ const router = createRouter({
           component: Settings,
           name: "Settings"
 
+        },
+        {
+          path: '',
+          redirect: 'index'
         }
       ]
     },
+    {
+      path: "/createRole",
+      name: "createRoles",
+      component: CreateRole
+    },
+
     {
       path: "/login",
       name: "login",
@@ -56,11 +73,11 @@ router.beforeEach(async (to, from) => {
   const authRequired = !publicPages.includes(to.path);
   const auth = useAuthStore();
   console.log(auth.token);
-  if(authRequired && !auth.token){
+  if (authRequired && !auth.token) {
     auth.returnUrl = to.fullPath;
     return '/login';
   }
-  if(to.fullPath === '/login' && auth.token){
+  if (to.fullPath === '/login' && auth.token) {
     return '/';
   }
 })
