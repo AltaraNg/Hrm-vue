@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { RouterView } from "vue-router";
 import { ModalsContainer } from "vue-final-modal";
 </script>
