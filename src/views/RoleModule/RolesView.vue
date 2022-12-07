@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="loading"><LoaderVue /></div>
+    <div v-if="loading"></div>
     <div class="font-outfit" v-else>
       <div class="flex justify-between">
         <h3 class="font-bold text-lg text-altara-blue">Roles</h3>
@@ -88,7 +88,6 @@ import ToggleButton from "@/components/buttons/ToggleButton.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
 import { createToast } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
-import LoaderVue from "@/components/LoaderVue.vue";
 import { $vfm } from "vue-final-modal";
 import DeleteConfirmModal from "@/components/modals/DeleteConfirmModal.vue";
 import CreateRolesModal from "@/components/modals/roles/CreateRolesModal.vue";
