@@ -14,8 +14,8 @@
         {{ avatar }}
       </div>
       <div class="p-2 text-xs">
-        <div class="font-bold">{{ user.full_name }}</div>
-        <div class="text-xs">Software Engineer</div>
+        <div class="font-bold">{{ fullName}}</div>
+        <div class="text-xs">{{ user.relationships?.role?.name }}</div>
       </div>
     </div>
   </div>
@@ -27,10 +27,13 @@ import { useAuthStore } from "@/stores/auth";
 const auth = useAuthStore();
 const user = ref(auth.user);
 const avatar = computed(() => {
-  let split = user?.value?.full_name.split(" ");
+  let split = user?.value?.attributes.full_name.split(" ");
 
   return `${split[0].slice(0, 1)}${split[1].slice(0, 1)}`;
 });
+const fullName = computed(() => {
+  return user?.value?.attributes.full_name
+})
 </script>
 
 <style scoped></style>

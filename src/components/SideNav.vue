@@ -2,7 +2,7 @@
   <div class="font-outfit pt-12 flex flex-col">
     <div class="font-thin my-3"><span class="subtitle">Get Started</span></div>
     <div class="my-5">
-      <RouterLink to="/">
+      <RouterLink to="index" :active-class="'text-altara-blue font-bold'">
         <span class="mr-3"
           ><img src="../assets/element-equal.svg" class="inline" alt="icon"
         /></span>
@@ -15,6 +15,14 @@
       <li class="my-3">
         <RouterLink :to="'roles'" :active-class="'text-altara-blue font-bold'">
           <img src="../assets/profile-circle.svg" class="inline mr-3" />Roles
+        </RouterLink>
+      </li>
+      <li class="my-3">
+        <RouterLink
+          :to="'permissions'"
+          :active-class="'text-altara-blue font-bold'"
+        >
+          <img src="../assets/guard.svg" class="inline mr-3" />Permissions
         </RouterLink>
       </li>
       <li class="my-3">

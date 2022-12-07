@@ -1,13 +1,9 @@
 <template>
-    <div>
-
-    </div>
+  <div></div>
 </template>
 
 <script setup lang="ts">
-
+import { get } from "@/api/client";
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -3,7 +3,7 @@
     <div v-if="loading"><LoaderVue /></div>
     <div class="font-outfit" v-else>
       <div class="flex justify-between">
-        <h3 class="font-bold text-lg text-altara-blue">Roles</h3>
+        <h3 class="font-bold text-lg text-altara-blue">Permissions</h3>
         <div class="flex">
           <div class="mx-2">
             <SearchComponent :filter-list="filterList"></SearchComponent>
@@ -13,11 +13,12 @@
       <!--TODO ui for mobile-->
       <div class="sm:hidden"></div>
       <div
-        class="hidden lg:block my-2 py-5 px-5 border rounded-md shadow-md w-full h-fit"
+        class="hidden lg:block my-2 py-7 px-14 border rounded-md shadow-md w-full h-fit"
+        v-if="permissions.length > 0"
       >
         <div class="mx-2 float-right my-2">
           <AddButton @click="showCreateModal"
-            ><template v-slot:title>Add Roles</template></AddButton
+            ><template v-slot:title>Add Permissions</template></AddButton
           >
         </div>
         <table
@@ -26,28 +27,25 @@
           <thead class="bg-sidebar-bg text-table-text rounded">
             <tr class="">
               <th class="py-3">#</th>
-              <th class="py-3">Roles</th>
               <th class="py-3">Permission</th>
               <th class="py-3">Status</th>
               <th class="py-3">Actions</th>
             </tr>
           </thead>
           <tbody class="text-table-text text-center">
-            <tr v-for="(role, index) in roles" :key="index">
+            <tr v-for="(permission, index) in permissions" :key="index">
               <td class="p-2 border border-t-0 border-l-0">
                 {{ OId + index }}
               </td>
               <td class="p-2 border border-t-0 w-1/4 text-left">
-                {{ role.name }}
+                {{ permission.name }}
               </td>
-              <td class="p-2 border border-t-0 text-left">
-                {{ role.permissions }}
-              </td>
+
               <td class="p-2 border border-t-0">
                 <ToggleButton
-                  @clicked="clickAction(role.deleted_at)"
+                  @clicked="clickAction(permission.deleted_at)"
                   :id="index"
-                  :initial-val="role.deleted_at ? true : false"
+                  :initial-val="permission.deleted_at ? true : false"
                 ></ToggleButton>
               </td>
               <td class="p-2 border border-t-0 border-r-0 w-1/5">
@@ -60,7 +58,7 @@
                   src="@/assets/edit_icon.svg"
                   alt="delte"
                   class="inline ml-4 cursor-pointer"
-                  @click="deleteRole(role)"
+                  @click="deletePermission(permission)"
                 />
               </td>
             </tr>
@@ -75,12 +73,20 @@
           ></PaginationComponent>
         </div>
       </div>
+      <div v-else class="hidden lg:block my-2 py-2 w-full">
+        <div class="mx-2 float-right">
+          <AddButton @click="showCreateModal"
+            ><template v-slot:title>Add Permissions</template></AddButton
+          >
+        </div>
+        <img src="@/assets/zero_state.svg" alt="zero-state" class="mx-auto" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { get, del } from "@/api/client";
+import { get, post, del } from "@/api/client";
 import { ref } from "vue";
 import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
@@ -90,10 +96,10 @@ import { createToast } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 import LoaderVue from "@/components/LoaderVue.vue";
 import { $vfm } from "vue-final-modal";
+import createPermissionModal from "@/components/modals/permissions/createPermissionModal.vue";
 import DeleteConfirmModal from "@/components/modals/DeleteConfirmModal.vue";
-import CreateRolesModal from "@/components/modals/roles/CreateRolesModal.vue";
 
-const roles = ref();
+const permissions = ref();
 const pageInfo = ref();
 const loading = ref(true);
 const OId = ref(1);
@@ -103,66 +109,37 @@ const filterList = ref([
   { id: 3, name: "Status", value: "name" },
 ]);
 
-const fetchRoles = () => {
-  get("api/roles" + `?per_page=10`)
+const fetchPermissions = () => {
+  get("api/permissions")
     .then((res) => {
-      roles.value = res.data.data[0].roles;
-      pageInfo.value = res.data.data[0].pagination;
+      permissions.value = res.data.data[0].permissions;
+        pageInfo.value = res.data.data[0].pagination;
       loading.value = false;
     })
     .catch((err) => {
       loading.value = false;
-      createToast(err.response.data.message, {
+      createToast("Unable to fetch permissions", {
         position: "top-left",
         type: "danger",
       });
     });
 };
 
-fetchRoles();
-const nextPage = () => {
-  let next = pageInfo.value.nextPageUrl.replace(
-    "http://hrm-play-api.herokuapp.com/",
-    ""
-  );
-  get(next + `&per_page=10`)
-    .then((res) => {
-      roles.value = res.data.data[0].roles;
-      pageInfo.value = res.data.data[0].pagination;
-      loading.value = false;
-      OId.value = OId.value + pageInfo.value.perPage;
-    })
-    .catch((err) => {
-      loading.value = false;
-      createToast(err.response.data.message, {
-        position: "top-left",
-        type: "danger",
-      });
-    });
+const showCreateModal = () => {
+  $vfm.show({
+    component: createPermissionModal,
+    bind: {
+      name: "VCreatePermissionModal",
+    },
+    on: {
+      cancel(close: any) {
+        console.log(close);
+        fetchPermissions();
+      },
+    },
+  });
 };
-
-const previousPage = () => {
-  let prev = pageInfo.value.previousPageUrl.replace(
-    "http://hrm-play-api.herokuapp.com/",
-    ""
-  );
-  get(prev + `&per_page=10`)
-    .then((res) => {
-      roles.value = res.data.data[0].roles;
-      pageInfo.value = res.data.data[0].pagination;
-      loading.value = false;
-      OId.value = OId.value - pageInfo.value.perPage;
-    })
-    .catch((err) => {
-      loading.value = false;
-      createToast(err.response.data.message, {
-        position: "top-left",
-        type: "danger",
-      });
-    });
-};
-
-const deleteRole = (role: any) => {
+const deletePermission = (permission: any) => {
   $vfm.show(
     {
       component: DeleteConfirmModal,
@@ -176,7 +153,7 @@ const deleteRole = (role: any) => {
               position: "top-left",
               type: "success",
             });
-            fetchRoles();
+            fetchPermissions();
             param.method();
           });
         },
@@ -185,23 +162,51 @@ const deleteRole = (role: any) => {
         },
       },
     },
-    { name: "role", item: role }
+    { name: "permission", item: permission }
   );
 };
+fetchPermissions();
+// const nextPage = () => {
+//   let next = pageInfo.value.nextPageUrl.replace(
+//     "http://hrm-play-api.herokuapp.com/",
+//     ""
+//   );
+//   get(next + `&per_page=10`)
+//     .then((res) => {
+//       roles.value = res.data.data[0].roles;
+//       pageInfo.value = res.data.data[0].pagination;
+//       loading.value = false;
+//       OId.value = OId.value + pageInfo.value.perPage;
+//     })
+//     .catch((err) => {
+//       loading.value = false;
+//       createToast(err.response.data.message, {
+//         position: "top-left",
+//         type: "danger",
+//       });
+//     });
+// };
 
-const showCreateModal = () => {
-  $vfm.show({
-    component: CreateRolesModal,
-    bind: {
-      name: "VCreateRolesModal",
-    },
-    on: {
-      cancel(close: any) {
-        fetchRoles();
-      },
-    },
-  });
-};
+// const previousPage = () => {
+//   let prev = pageInfo.value.previousPageUrl.replace(
+//     "http://hrm-play-api.herokuapp.com/",
+//     ""
+//   );
+//   get(prev + `&per_page=10`)
+//     .then((res) => {
+//       roles.value = res.data.data[0].roles;
+//       pageInfo.value = res.data.data[0].pagination;
+//       loading.value = false;
+//       OId.value = OId.value - pageInfo.value.perPage;
+//     })
+//     .catch((err) => {
+//       loading.value = false;
+//       createToast(err.response.data.message, {
+//         position: "top-left",
+//         type: "danger",
+//       });
+//     });
+// };
 
 const clickAction = (status: any) => {
   console.log(status);

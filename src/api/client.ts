@@ -4,7 +4,7 @@ const auth = useAuthStore();
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
- 
+
 
 });
 
@@ -30,11 +30,22 @@ export const post = (url: string, data: object) => {
   });
 };
 
-instance.interceptors.response.use(function (response){
+export const del = (url: string) => {
+  return instance({
+    method: "DELETE",
+    url,
+    headers: {
+      'Access-Control-Allow-Credentials': true,
+      Authorization: `Bearer ${auth.token}`,
+    }
+  });
+};
+
+instance.interceptors.response.use(function (response) {
   return response;
-}, function(error){
+}, function (error) {
   console.log(error.response.status)
-  if(error.response.status === 401){
+  if (error.response.status === 401) {
     useAuthStore().logout();
   }
 })
@@ -45,7 +56,7 @@ export const interceptors = (cb: any) =>
     (err) => {
       cb(err);
       console.log(err.response.status)
-      
+
       return Promise.reject(err);
     }
   );

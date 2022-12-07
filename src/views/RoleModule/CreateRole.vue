@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen">
     <div class="bg-altara-blue text-white flex py-3 px-3">
-      <span
+      <span class="cursor-pointer" @click="$router.go(-1)"
         ><img src="@/assets/back_icon.svg" alt="back_icon" class="inline"
       /></span>
       <h3 class="mx-auto">Create Role</h3>
@@ -14,14 +14,17 @@
         :actions="false"
         :classes="{
           message: 'text-red-500 text-xs',
+          outer: 'h-screen',
+          inner: 'h-screen',
         }"
       >
         <FormKit
           type="text"
           label="Role"
           validation="required"
+          v-model="roleName"
           :classes="{
-            outer: 'w-1/2',
+            outer: 'w-2/5',
             label: 'block font-outfit text-sm',
 
             inner:
@@ -32,10 +35,20 @@
             message: 'text-red-500 text-xs',
           }"
         ></FormKit>
-        <div>List of perrmisions</div>
-        <div class="absolute right-0 bottom-0">
-          <button>Cancel</button>
-          <button>Create Role</button>
+        <div class="my-4">
+          <PermissionComponent
+            v-for="(permission, index) in permissions"
+            :permission="permission.name"
+            :key="index"
+          ></PermissionComponent>
+        </div>
+        <div class="my-10">
+          <button class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm">
+            Cancel
+          </button>
+          <button class="bg-altara-blue text-white p-2 rounded-md text-sm">
+            Create Role
+          </button>
         </div>
       </FormKit>
     </div>
@@ -44,9 +57,11 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { get } from "@/api/client";
+import { get, post } from "@/api/client";
 import { createToast } from "mosha-vue-toastify";
+import PermissionComponent from "@/components/PermissionComponent.vue";
 const permissions = ref();
+const roleName = ref("");
 
 const fetchPermissions = () => {
   get("/api/permissions")
@@ -60,6 +75,12 @@ const fetchPermissions = () => {
       });
     });
 };
+
+
+const submitRequest = () => {
+  post("/api/roles", { name: roleName.value }).then;
+};
+
 fetchPermissions();
 </script>
 

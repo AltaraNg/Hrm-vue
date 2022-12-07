@@ -16,6 +16,8 @@ module.exports = {
         "sidebar-bg": "#F7F7FF",
         "table-text": "#0D172A",
         "smoke-darkest": "rgba(0, 0, 0, 0.9)",
+        "altara-blue-solar": "rgba(7, 74, 116, 0.1)",
+        "altara-blue-solar-border": "rgba(7, 74, 116, 0.19)",
         "smoke-darker": "rgba(0, 0, 0, 0.75)",
         "smoke-dark": "rgba(0, 0, 0, 0.6)",
         smoke: "rgba(0, 0, 0, 0.5)",
