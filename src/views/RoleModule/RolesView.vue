@@ -28,7 +28,7 @@
               <th class="py-3">#</th>
               <th class="py-3">Roles</th>
               <th class="py-3">Permission</th>
-              <th class="py-3">Status</th>
+
               <th class="py-3">Actions</th>
             </tr>
           </thead>
@@ -43,13 +43,7 @@
               <td class="p-2 border border-t-0 text-left">
                 {{ role.permissions }}
               </td>
-              <td class="p-2 border border-t-0">
-                <ToggleButton
-                  @clicked="clickAction(role.deleted_at)"
-                  :id="index"
-                  :initial-val="role.deleted_at ? true : false"
-                ></ToggleButton>
-              </td>
+
               <td class="p-2 border border-t-0 border-r-0 w-1/5">
                 <img
                   src="@/assets/delete_icon.svg"
@@ -84,7 +78,6 @@ import { get, del } from "@/api/client";
 import { ref } from "vue";
 import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
-import ToggleButton from "@/components/buttons/ToggleButton.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
 import { createToast } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
