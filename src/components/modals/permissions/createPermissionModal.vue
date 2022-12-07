@@ -64,7 +64,6 @@
 <script setup lang="ts">
 import { post } from "@/api/client";
 import { createToast } from "mosha-vue-toastify";
-import { ref } from "vue";
 import { $vfm } from "vue-final-modal";
 const emit = defineEmits(["cancel"]);
 async function onSubmit(data: any) {

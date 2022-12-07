@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { get, post, del } from "@/api/client";
+import { get, del } from "@/api/client";
 import { ref } from "vue";
 import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
@@ -113,7 +113,7 @@ const fetchPermissions = () => {
   get("api/permissions")
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
-        pageInfo.value = res.data.data[0].pagination;
+      pageInfo.value = res.data.data[0].pagination;
       loading.value = false;
     })
     .catch((err) => {
@@ -139,6 +139,7 @@ const showCreateModal = () => {
     },
   });
 };
+
 const deletePermission = (permission: any) => {
   $vfm.show(
     {
@@ -166,47 +167,47 @@ const deletePermission = (permission: any) => {
   );
 };
 fetchPermissions();
-// const nextPage = () => {
-//   let next = pageInfo.value.nextPageUrl.replace(
-//     "http://hrm-play-api.herokuapp.com/",
-//     ""
-//   );
-//   get(next + `&per_page=10`)
-//     .then((res) => {
-//       roles.value = res.data.data[0].roles;
-//       pageInfo.value = res.data.data[0].pagination;
-//       loading.value = false;
-//       OId.value = OId.value + pageInfo.value.perPage;
-//     })
-//     .catch((err) => {
-//       loading.value = false;
-//       createToast(err.response.data.message, {
-//         position: "top-left",
-//         type: "danger",
-//       });
-//     });
-// };
+const nextPage = () => {
+  let next = pageInfo.value.nextPageUrl.replace(
+    "http://hrm-play-api.herokuapp.com/",
+    ""
+  );
+  get(next + `&per_page=10`)
+    .then((res) => {
+      permissions.value = res.data.data[0].permissions;
+      pageInfo.value = res.data.data[0].pagination;
+      loading.value = false;
+      OId.value = OId.value + pageInfo.value.perPage;
+    })
+    .catch((err) => {
+      loading.value = false;
+      createToast(err.response.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
+    });
+};
 
-// const previousPage = () => {
-//   let prev = pageInfo.value.previousPageUrl.replace(
-//     "http://hrm-play-api.herokuapp.com/",
-//     ""
-//   );
-//   get(prev + `&per_page=10`)
-//     .then((res) => {
-//       roles.value = res.data.data[0].roles;
-//       pageInfo.value = res.data.data[0].pagination;
-//       loading.value = false;
-//       OId.value = OId.value - pageInfo.value.perPage;
-//     })
-//     .catch((err) => {
-//       loading.value = false;
-//       createToast(err.response.data.message, {
-//         position: "top-left",
-//         type: "danger",
-//       });
-//     });
-// };
+const previousPage = () => {
+  let prev = pageInfo.value.previousPageUrl.replace(
+    "http://hrm-play-api.herokuapp.com/",
+    ""
+  );
+  get(prev + `&per_page=10`)
+    .then((res) => {
+      permissions.value = res.data.data[0].permissions;
+      pageInfo.value = res.data.data[0].pagination;
+      loading.value = false;
+      OId.value = OId.value - pageInfo.value.perPage;
+    })
+    .catch((err) => {
+      loading.value = false;
+      createToast(err.response.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
+    });
+};
 
 const clickAction = (status: any) => {
   console.log(status);
