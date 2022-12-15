@@ -78,6 +78,7 @@ import { ref, reactive } from "vue";
 import { $vfm } from "vue-final-modal";
 import { createToast } from "mosha-vue-toastify";
 import PermissionComponent from "@/components/PermissionComponent.vue";
+import { useGeneralStore } from "@/stores/generalStore";
 
 const emit = defineEmits(["cancel"]);
 const permissions = ref();
@@ -99,7 +100,9 @@ const fetchPermissions = () => {
 fetchPermissions();
 
 async function onSubmit(data: any) {
-  return await post("/api/roles", {
+  useGeneralStore().toggleLoader();
+
+  await post("/api/roles", {
     name: data.roleName,
     permissions: permissionsList,
   }).then((res) => {
@@ -110,6 +113,7 @@ async function onSubmit(data: any) {
     emit("cancel");
     $vfm.hide("VCreateRolesModal").then(() => {});
   });
+  useGeneralStore().toggleLoader();
 }
 
 const addToPermission = (perm: any) => {

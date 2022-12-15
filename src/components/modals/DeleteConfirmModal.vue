@@ -54,18 +54,6 @@ import { post } from "@/api/client";
 import { createToast } from "mosha-vue-toastify";
 import { ref } from "vue";
 import { $vfm } from "vue-final-modal";
-async function onSubmit(data: any) {
-  console.log(data);
-  return await post("/api/permissions", { name: data.permissionName }).then(
-    (res) => {
-      createToast("Permission Added Successfully", {
-        position: "top-left",
-        type: "success",
-      });
-      $vfm.toggle("createPermissionModal");
-    }
-  );
-}
 </script>
 
 <style scoped></style>

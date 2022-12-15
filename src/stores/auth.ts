@@ -16,7 +16,7 @@ export const useAuthStore = defineStore("auth", {
 
     actions: {
         async signin(staffId: string, password: string) {
-            axios.post(`${base_url}/api/auth/login`, { staff_id: staffId, password: password }).then((res: any) => {
+            await axios.post(`${base_url}/api/auth/login`, { staff_id: staffId, password: password }).then((res: any) => {
                 let { user, token } = res.data?.data;
                 localStorage.setItem('user', JSON.stringify(user));
                 localStorage.setItem('token', JSON.stringify(token));
@@ -32,6 +32,8 @@ export const useAuthStore = defineStore("auth", {
                     position: "top-left",
                     type: "danger",
                 });
+                return err;
+
 
             });
 

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row h-screen text-sm">
-    <SideNav class="p-10 bg-sidebar-bg"></SideNav>
-    <div class="w-5/6 pl-6 bg-white">
+    <SideNav></SideNav>
+    <div class="w-5/6 pl-6 bg-white h-screen">
       <DashboardHeader class=""></DashboardHeader>
       <hr class="border-slate-50 mb-5" />
       <RouterView></RouterView>

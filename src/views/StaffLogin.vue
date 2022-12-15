@@ -4,12 +4,15 @@ import { ref } from "vue";
 
 const staffId = ref("");
 const password = ref("");
+const loading = ref(false);
 
 async function onSubmit(credentials: any) {
+  loading.value = !loading.value;
   const authStore = useAuthStore();
   let { staffId, password } = credentials;
 
-  return await authStore.signin(staffId, password);
+  let res = await authStore.signin(staffId, password);
+  loading.value = !loading.value;
 }
 </script>
 
@@ -82,7 +85,23 @@ async function onSubmit(credentials: any) {
             >Forgot password?</a
           >
         </div>
-        <FormKit type="submit" label="Login" />
+        <button
+          type="submit"
+          class="bg-altara-blue text-white p-2 w-full rounded-md text-center"
+          :disabled="loading"
+          :class="{ 'bg-slate-400': loading }"
+        >
+          <div v-if="loading">
+            <div
+              class="inline-flex h-5 w-5 items-center mx-auto justify-center rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 animate-spin text-white"
+            >
+              <div class="h-4 w-4 rounded-full bg-gray-200"></div>
+            </div>
+            <span class="inline mx-2">Loading</span>
+          </div>
+
+          <div v-else>Login</div>
+        </button>
       </FormKit>
     </div>
   </div>

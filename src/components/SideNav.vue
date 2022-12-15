@@ -1,58 +1,74 @@
 <template>
-  <div class="font-outfit pt-12 flex flex-col">
-    <div class="font-thin my-3"><span class="subtitle">Get Started</span></div>
-    <div class="my-5">
-      <RouterLink to="index" :active-class="'text-altara-blue font-bold'">
-        <span class="mr-3"
-          ><img src="../assets/element-equal.svg" class="inline" alt="icon"
-        /></span>
-        Dashboard
-      </RouterLink>
+  <div
+    class="font-outfit flex flex-col h-screen justify-between p-5 bg-sidebar-bg"
+  >
+    <div class="mt-4">
+      <div class="font-thin my-3">
+        <span class="subtitle">Get Started</span>
+      </div>
+      <div class="my-3">
+        <RouterLink to="index" :active-class="'text-altara-blue font-bold'">
+          <span class="mr-3"
+            ><img src="../assets/element-equal.svg" class="inline" alt="icon"
+          /></span>
+          Dashboard
+        </RouterLink>
+      </div>
     </div>
 
-    <div class="my-10"><span class="subtitle">Activities</span></div>
-    <ul class="flex flex-col">
-      <li class="my-3">
-        <RouterLink :to="'roles'" :active-class="'text-altara-blue font-bold'">
-          <img src="../assets/profile-circle.svg" class="inline mr-3" />Roles
-        </RouterLink>
-      </li>
-      <li class="my-3">
-        <RouterLink
-          :to="'permissions'"
-          :active-class="'text-altara-blue font-bold'"
-        >
-          <img src="../assets/guard.svg" class="inline mr-3" />Permissions
-        </RouterLink>
-      </li>
-      <li class="my-3">
-        <RouterLink :to="'people'" :active-class="'text-altara-blue font-bold'"
-          ><img
-            src="../assets/note-add.svg"
-            class="inline mr-3"
-          />Employees</RouterLink
-        >
-      </li>
-      <li class="my-3">
-        <RouterLink to="accounting" :active-class="'text-altara-blue font-bold'"
-          ><img
-            src="../assets/award.svg"
-            class="inline mr-3"
-          />Accounting</RouterLink
-        >
-      </li>
-      <li class="my-3">
-        <RouterLink to="settings" :active-class="'text-altara-blue font-bold'"
-          ><img
-            src="../assets/setting-2.svg"
-            class="inline mr-3"
-          />Settings</RouterLink
-        >
-      </li>
-    </ul>
-    <div class="absolute bottom-0">
+    <div>
+      <div class="mb-5"><span class="subtitle">Activities</span></div>
+      <ul class="flex flex-col">
+        <li class="my-2">
+          <RouterLink
+            :to="'roles'"
+            :active-class="'text-altara-blue font-bold'"
+          >
+            <img src="../assets/profile-circle.svg" class="inline mr-3" />Roles
+          </RouterLink>
+        </li>
+        <li class="my-2">
+          <RouterLink
+            :to="'permissions'"
+            :active-class="'text-altara-blue font-bold'"
+          >
+            <img src="../assets/guard.svg" class="inline mr-3" />Permissions
+          </RouterLink>
+        </li>
+        <li class="my-2">
+          <RouterLink
+            :to="'people'"
+            :active-class="'text-altara-blue font-bold'"
+            ><img
+              src="../assets/note-add.svg"
+              class="inline mr-3"
+            />Employees</RouterLink
+          >
+        </li>
+        <li class="my-2">
+          <RouterLink
+            to="accounting"
+            :active-class="'text-altara-blue font-bold'"
+            ><img
+              src="../assets/award.svg"
+              class="inline mr-3"
+            />Accounting</RouterLink
+          >
+        </li>
+        <li class="my-2">
+          <RouterLink to="settings" :active-class="'text-altara-blue font-bold'"
+            ><img
+              src="../assets/setting-2.svg"
+              class="inline mr-3"
+            />Settings</RouterLink
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="justify-self-end">
       <button
-        class="bg-altara-blue text-white mb-6 px-7 py-1 rounded-md text-sm"
+        class="bg-altara-blue text-white px-7 py-1 rounded-md text-sm"
         @click="auth.logout"
       >
         LogOut

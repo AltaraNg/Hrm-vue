@@ -13,15 +13,15 @@
       <!--TODO ui for mobile-->
       <div class="sm:hidden"></div>
       <div
-        class="hidden lg:block my-2 py-5 px-5 border rounded-md shadow-md w-full h-fit"
+        class="hidden lg:block my-2 py-5 px-5 border rounded-md shadow-md w-full h-5/6"
       >
         <div class="mx-2 float-right my-2">
           <AddButton @click="showCreateModal"
-            ><template v-slot:title>Add Roles</template></AddButton
+            ><template v-slot:title>Add Role</template></AddButton
           >
         </div>
         <table
-          class="border-collapse rounded-t font-bold w-full my-table-spacing text-xs mb-10"
+          class="border-collapse rounded-t font-bold w-full h-5/6 overflow-y-auto my-table-spacing text-sm mb-10"
         >
           <thead class="bg-sidebar-bg text-table-text rounded">
             <tr class="">
@@ -75,7 +75,7 @@
 
 <script setup lang="ts">
 import { get, del } from "@/api/client";
-import { ref } from "vue";
+import { inject, ref } from "vue";
 import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
@@ -84,7 +84,15 @@ import "mosha-vue-toastify/dist/style.css";
 import { $vfm } from "vue-final-modal";
 import DeleteConfirmModal from "@/components/modals/DeleteConfirmModal.vue";
 import CreateRolesModal from "@/components/modals/roles/CreateRolesModal.vue";
+import { useGeneralStore } from "@/stores/generalStore";
+// import {$lodash} from globalFunctions;
 
+import { useRouter, useRoute, onBeforeRouteUpdate } from "vue-router";
+const globalFunctions = inject("globalFunctions");
+// const $empty = globalFunctions.$emptyObject;
+
+const router = useRouter();
+const route = useRoute();
 const roles = ref();
 const pageInfo = ref();
 const loading = ref(true);
@@ -95,8 +103,10 @@ const filterList = ref([
   { id: 3, name: "Status", value: "name" },
 ]);
 
-const fetchRoles = () => {
-  get("api/roles" + `?per_page=10`)
+const fetchRoles = async () => {
+  console.log(globalFunctions);
+  useGeneralStore().toggleLoader();
+  await get("api/roles" + `?per_page=10`)
     .then((res) => {
       roles.value = res.data.data[0].roles;
       pageInfo.value = res.data.data[0].pagination;
@@ -109,19 +119,26 @@ const fetchRoles = () => {
         type: "danger",
       });
     });
+  useGeneralStore().toggleLoader();
 };
 
 fetchRoles();
-const nextPage = () => {
+const nextPage = async () => {
+  useGeneralStore().toggleLoader();
+
   let next = pageInfo.value.nextPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
     ""
   );
-  get(next + `&per_page=10`)
+  await get(next + `&per_page=10`)
     .then((res) => {
       roles.value = res.data.data[0].roles;
       pageInfo.value = res.data.data[0].pagination;
       loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10, page: pageInfo.value.currentPage },
+      });
       OId.value = OId.value + pageInfo.value.perPage;
     })
     .catch((err) => {
@@ -131,18 +148,26 @@ const nextPage = () => {
         type: "danger",
       });
     });
+  useGeneralStore().toggleLoader();
 };
 
-const previousPage = () => {
+const previousPage = async () => {
+  useGeneralStore().toggleLoader();
+
   let prev = pageInfo.value.previousPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
     ""
   );
-  get(prev + `&per_page=10`)
+  await get(prev + `&per_page=10`)
     .then((res) => {
       roles.value = res.data.data[0].roles;
       pageInfo.value = res.data.data[0].pagination;
       loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10, page: pageInfo.value.currentPage },
+      });
+
       OId.value = OId.value - pageInfo.value.perPage;
     })
     .catch((err) => {
@@ -152,6 +177,7 @@ const previousPage = () => {
         type: "danger",
       });
     });
+  useGeneralStore().toggleLoader();
 };
 
 const deleteRole = (role: any) => {
@@ -162,8 +188,8 @@ const deleteRole = (role: any) => {
         name: "VConfirmDeleteModal",
       },
       on: {
-        confirm(param: any) {
-          del(`/api/permissions/${param.item.id}`).then((res) => {
+        async confirm(param: any) {
+          await del(`/api/roles/${param.item.id}`).then((res) => {
             createToast(res.data.message, {
               position: "top-left",
               type: "success",

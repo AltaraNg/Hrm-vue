@@ -2,6 +2,7 @@
 // @ts-nocheck
 import { RouterView } from "vue-router";
 import { ModalsContainer } from "vue-final-modal";
+import LoaderVue from "./components/LoaderVue.vue";
 </script>
 
 <template>
