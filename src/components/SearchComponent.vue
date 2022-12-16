@@ -33,7 +33,7 @@
           <h4 class="text-altara-blue ml-3 mr-32 font-semibold">Filters</h4>
           <img
             src="@/assets/close_icon.svg"
-            alt="close"
+            alt="close" 
             class="mr-3"
             @click="toggleModal"
           />

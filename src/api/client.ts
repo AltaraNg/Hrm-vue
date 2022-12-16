@@ -29,6 +29,17 @@ export const post = (url: string, data: object) => {
     }
   });
 };
+export const put = (url: string, data: object) => {
+  return instance({
+    method: "PUT",
+    url,
+    data,
+    headers: {
+      'Access-Control-Allow-Credentials': true,
+      Authorization: `Bearer ${auth.token}`,
+    }
+  });
+};
 
 export const del = (url: string) => {
   return instance({
@@ -44,7 +55,6 @@ export const del = (url: string) => {
 instance.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  console.log(error.response.status)
   if (error.response.status === 401) {
     useAuthStore().logout();
   }

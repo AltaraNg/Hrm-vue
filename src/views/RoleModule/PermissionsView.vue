@@ -86,10 +86,16 @@ import PaginationComponent from "@/components/PaginationComponent.vue";
 import { createToast } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 import { $vfm } from "vue-final-modal";
+import { useGeneralStore } from "@/stores/generalStore";
+import queryParams from "@/utilities/queryParams";
+import { $emptyObject } from "@/utilities/globalFunctions";
 import createPermissionModal from "@/components/modals/permissions/createPermissionModal.vue";
 import DeleteConfirmModal from "@/components/modals/DeleteConfirmModal.vue";
+import { useRoute, useRouter } from "vue-router";
 
 const permissions = ref();
+const router = useRouter();
+const route = useRoute();
 const pageInfo = ref();
 const loading = ref(true);
 const OId = ref(1);
@@ -99,8 +105,10 @@ const filterList = ref([
   { id: 3, name: "Status", value: "name" },
 ]);
 
-const fetchPermissions = () => {
-  get("api/permissions")
+const fetchPermissions = async () => {
+  useGeneralStore().toggleLoader();
+
+  await get("api/permissions" + "?per_page=10")
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
       pageInfo.value = res.data.data[0].pagination;
@@ -108,11 +116,31 @@ const fetchPermissions = () => {
     })
     .catch((err) => {
       loading.value = false;
-      createToast("Unable to fetch permissions", {
+      createToast(err.response.data.message, {
         position: "top-left",
         type: "danger",
       });
     });
+  useGeneralStore().toggleLoader();
+};
+
+const updateComponent = async function name() {
+  useGeneralStore().toggleLoader();
+  await get("api/permissions" + queryParams(route.query))
+    .then((res) => {
+      permissions.value = res.data.data[0].permissions;
+      pageInfo.value = res.data.data[0].pagination;
+      OId.value = (pageInfo.value.currentPage - 1) * 10 + 1;
+      loading.value = false;
+    })
+    .catch((err) => {
+      loading.value = false;
+      createToast(err.response.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
+    });
+  useGeneralStore().toggleLoader();
 };
 
 const showCreateModal = () => {
@@ -156,8 +184,12 @@ const deletePermission = (permission: any) => {
     { name: "permission", item: permission }
   );
 };
-fetchPermissions();
+
+$emptyObject(route.query) ? fetchPermissions() : updateComponent();
+
 const nextPage = () => {
+  useGeneralStore().toggleLoader();
+
   let next = pageInfo.value.nextPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
     ""
@@ -167,6 +199,10 @@ const nextPage = () => {
       permissions.value = res.data.data[0].permissions;
       pageInfo.value = res.data.data[0].pagination;
       loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10, page: pageInfo.value.currentPage },
+      });
       OId.value = OId.value + pageInfo.value.perPage;
     })
     .catch((err) => {
@@ -176,9 +212,12 @@ const nextPage = () => {
         type: "danger",
       });
     });
+  useGeneralStore().toggleLoader();
 };
 
 const previousPage = () => {
+  useGeneralStore().toggleLoader();
+
   let prev = pageInfo.value.previousPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
     ""
@@ -188,6 +227,10 @@ const previousPage = () => {
       permissions.value = res.data.data[0].permissions;
       pageInfo.value = res.data.data[0].pagination;
       loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10, page: pageInfo.value.currentPage },
+      });
       OId.value = OId.value - pageInfo.value.perPage;
     })
     .catch((err) => {
@@ -197,10 +240,7 @@ const previousPage = () => {
         type: "danger",
       });
     });
-};
-
-const clickAction = (status: any) => {
-  console.log(status);
+  useGeneralStore().toggleLoader();
 };
 </script>
 

@@ -49,11 +49,6 @@
   </vue-final-modal>
 </template>
 
-<script setup lang="ts">
-import { post } from "@/api/client";
-import { createToast } from "mosha-vue-toastify";
-import { ref } from "vue";
-import { $vfm } from "vue-final-modal";
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

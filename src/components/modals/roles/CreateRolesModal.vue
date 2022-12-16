@@ -99,22 +99,36 @@ const fetchPermissions = () => {
 };
 fetchPermissions();
 
-async function onSubmit(data: any) {
+const onSubmit = async (data: any) => {
   useGeneralStore().toggleLoader();
-
-  await post("/api/roles", {
+  post("/api/roles", {
     name: data.roleName,
     permissions: permissionsList,
-  }).then((res) => {
-    createToast("Role Added Successfully", {
-      position: "top-left",
-      type: "success",
+  })
+    .then((res) => {
+      console.log(res);
+      if (res.data.status === "success") {
+        createToast("Role Added Successfully", {
+          position: "top-left",
+          type: "success",
+        });
+        emit("cancel");
+        $vfm.hide("VCreateRolesModal").then(() => {});
+      } else {
+        createToast(res.data.message, {
+          position: "top-left",
+          type: "danger",
+        });
+      }
+    })
+    .catch((err) => {
+      createToast(err.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
     });
-    emit("cancel");
-    $vfm.hide("VCreateRolesModal").then(() => {});
-  });
   useGeneralStore().toggleLoader();
-}
+};
 
 const addToPermission = (perm: any) => {
   permissionsList.push(perm.id);

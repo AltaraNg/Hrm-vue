@@ -63,11 +63,11 @@
 
 <script setup lang="ts">
 import { post } from "@/api/client";
+import { useGeneralStore } from "@/stores/generalStore";
 import { createToast } from "mosha-vue-toastify";
 import { $vfm } from "vue-final-modal";
 const emit = defineEmits(["cancel"]);
 async function onSubmit(data: any) {
-  console.log(data);
   return await post("/api/permissions", { name: data.permissionName }).then(
     (res) => {
       createToast("Permission Added Successfully", {

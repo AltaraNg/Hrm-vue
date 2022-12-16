@@ -14,56 +14,61 @@
           Dashboard
         </RouterLink>
       </div>
-    </div>
 
-    <div>
-      <div class="mb-5"><span class="subtitle">Activities</span></div>
-      <ul class="flex flex-col">
-        <li class="my-2">
-          <RouterLink
-            :to="'roles'"
-            :active-class="'text-altara-blue font-bold'"
-          >
-            <img src="../assets/profile-circle.svg" class="inline mr-3" />Roles
-          </RouterLink>
-        </li>
-        <li class="my-2">
-          <RouterLink
-            :to="'permissions'"
-            :active-class="'text-altara-blue font-bold'"
-          >
-            <img src="../assets/guard.svg" class="inline mr-3" />Permissions
-          </RouterLink>
-        </li>
-        <li class="my-2">
-          <RouterLink
-            :to="'people'"
-            :active-class="'text-altara-blue font-bold'"
-            ><img
-              src="../assets/note-add.svg"
-              class="inline mr-3"
-            />Employees</RouterLink
-          >
-        </li>
-        <li class="my-2">
-          <RouterLink
-            to="accounting"
-            :active-class="'text-altara-blue font-bold'"
-            ><img
-              src="../assets/award.svg"
-              class="inline mr-3"
-            />Accounting</RouterLink
-          >
-        </li>
-        <li class="my-2">
-          <RouterLink to="settings" :active-class="'text-altara-blue font-bold'"
-            ><img
-              src="../assets/setting-2.svg"
-              class="inline mr-3"
-            />Settings</RouterLink
-          >
-        </li>
-      </ul>
+      <div class="mt-10">
+        <div class="mb-2"><span class="subtitle">Activities</span></div>
+        <ul class="flex flex-col">
+          <li class="my-2">
+            <RouterLink
+              :to="'roles'"
+              :active-class="'text-altara-blue font-bold'"
+            >
+              <img
+                src="../assets/profile-circle.svg"
+                class="inline mr-3"
+              />Roles
+            </RouterLink>
+          </li>
+          <li class="my-2">
+            <RouterLink
+              :to="'permissions'"
+              :active-class="'text-altara-blue font-bold'"
+            >
+              <img src="../assets/guard.svg" class="inline mr-3" />Permissions
+            </RouterLink>
+          </li>
+          <li class="my-2">
+            <RouterLink
+              :to="'people'"
+              :active-class="'text-altara-blue font-bold'"
+              ><img
+                src="../assets/note-add.svg"
+                class="inline mr-3"
+              />Employees</RouterLink
+            >
+          </li>
+          <li class="my-2">
+            <RouterLink
+              to="accounting"
+              :active-class="'text-altara-blue font-bold'"
+              ><img
+                src="../assets/award.svg"
+                class="inline mr-3"
+              />Accounting</RouterLink
+            >
+          </li>
+          <li class="my-2">
+            <RouterLink
+              to="settings"
+              :active-class="'text-altara-blue font-bold'"
+              ><img
+                src="../assets/setting-2.svg"
+                class="inline mr-3"
+              />Settings</RouterLink
+            >
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="justify-self-end">

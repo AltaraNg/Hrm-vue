@@ -49,6 +49,7 @@
                   src="@/assets/delete_icon.svg"
                   alt="edit"
                   class="inline mr-4 cursor-pointer"
+                  @click="editRole(role)"
                 />
                 <img
                   src="@/assets/edit_icon.svg"
@@ -75,7 +76,7 @@
 
 <script setup lang="ts">
 import { get, del } from "@/api/client";
-import { inject, ref } from "vue";
+import { ref } from "vue";
 import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
@@ -85,11 +86,10 @@ import { $vfm } from "vue-final-modal";
 import DeleteConfirmModal from "@/components/modals/DeleteConfirmModal.vue";
 import CreateRolesModal from "@/components/modals/roles/CreateRolesModal.vue";
 import { useGeneralStore } from "@/stores/generalStore";
-// import {$lodash} from globalFunctions;
-
-import { useRouter, useRoute, onBeforeRouteUpdate } from "vue-router";
-const globalFunctions = inject("globalFunctions");
-// const $empty = globalFunctions.$emptyObject;
+import queryParams from "@/utilities/queryParams";
+import { $emptyObject } from "@/utilities/globalFunctions";
+import { useRouter, useRoute } from "vue-router";
+import EditRolesModal from "@/components/modals/roles/EditRolesModal.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -104,7 +104,6 @@ const filterList = ref([
 ]);
 
 const fetchRoles = async () => {
-  console.log(globalFunctions);
   useGeneralStore().toggleLoader();
   await get("api/roles" + `?per_page=10`)
     .then((res) => {
@@ -122,7 +121,26 @@ const fetchRoles = async () => {
   useGeneralStore().toggleLoader();
 };
 
-fetchRoles();
+const updateComponent = async function name() {
+  useGeneralStore().toggleLoader();
+  await get("api/roles" + queryParams(route.query))
+    .then((res) => {
+      roles.value = res.data.data[0].roles;
+      pageInfo.value = res.data.data[0].pagination;
+      OId.value = (pageInfo.value.currentPage - 1) * 10 + 1;
+      loading.value = false;
+    })
+    .catch((err) => {
+      loading.value = false;
+      createToast(err.response.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
+    });
+  useGeneralStore().toggleLoader();
+};
+
+$emptyObject(route.query) ? fetchRoles() : updateComponent();
 const nextPage = async () => {
   useGeneralStore().toggleLoader();
 
@@ -189,15 +207,39 @@ const deleteRole = (role: any) => {
       },
       on: {
         async confirm(param: any) {
-          await del(`/api/roles/${param.item.id}`).then((res) => {
-            createToast(res.data.message, {
-              position: "top-left",
-              type: "success",
+          await del(`/api/roles/${param.item.id}`)
+            .then((res) => {
+              createToast(res.data.message, {
+                position: "top-left",
+                type: "success",
+              });
+              fetchRoles();
+              param.method();
+            })
+            .catch((err) => {
+              createToast(err.data.message, {
+                position: "top-left",
+                type: "danger",
+              });
             });
-            fetchRoles();
-            param.method();
-          });
         },
+        cancel(close: any) {
+          close();
+        },
+      },
+    },
+    { name: "role", item: role }
+  );
+};
+
+const editRole = (role: any) => {
+  $vfm.show(
+    {
+      component: EditRolesModal,
+      bind: {
+        name: "VEditRolesModal",
+      },
+      on: {
         cancel(close: any) {
           close();
         },
@@ -215,14 +257,10 @@ const showCreateModal = () => {
     },
     on: {
       cancel(close: any) {
-        fetchRoles();
+        close();
       },
     },
   });
-};
-
-const clickAction = (status: any) => {
-  console.log(status);
 };
 </script>
 
