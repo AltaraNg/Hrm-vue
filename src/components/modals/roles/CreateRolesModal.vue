@@ -79,6 +79,7 @@ import { $vfm } from "vue-final-modal";
 import { createToast } from "mosha-vue-toastify";
 import PermissionComponent from "@/components/PermissionComponent.vue";
 import { useGeneralStore } from "@/stores/generalStore";
+import axios from "axios";
 
 const emit = defineEmits(["cancel"]);
 const permissions = ref();
@@ -101,32 +102,45 @@ fetchPermissions();
 
 const onSubmit = async (data: any) => {
   useGeneralStore().toggleLoader();
-  post("/api/roles", {
-    name: data.roleName,
-    permissions: permissionsList,
-  })
-    .then((res) => {
-      console.log(res);
-      if (res.data.status === "success") {
-        createToast("Role Added Successfully", {
-          position: "top-left",
-          type: "success",
-        });
-        emit("cancel");
-        $vfm.hide("VCreateRolesModal").then(() => {});
-      } else {
-        createToast(res.data.message, {
-          position: "top-left",
-          type: "danger",
-        });
-      }
-    })
-    .catch((err) => {
-      createToast(err.data.message, {
+  try {
+    let res = await post("/api/roles", {
+      name: data.roleName,
+      permissions: permissionsList,
+    });
+    if (res) {
+      createToast("Role Successfully created", {
+        position: "top-left",
+        type: "success",
+      });
+      $vfm.hide("VCreateRolesModal").then(() => {});
+
+      emit("cancel");
+    } else {
+      createToast("There is an error in your request", {
         position: "top-left",
         type: "danger",
       });
-    });
+    }
+  } catch (error: any) {
+    // Error
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      // console.log(error.response.data);
+      // console.log(error.response.status);
+      // console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log("Error", error.message);
+    }
+    console.log(error.config);
+  }
+
   useGeneralStore().toggleLoader();
 };
 

@@ -152,7 +152,7 @@ const showCreateModal = () => {
     on: {
       cancel(close: any) {
         console.log(close);
-        fetchPermissions();
+        updateComponent();
       },
     },
   });
@@ -172,7 +172,7 @@ const deletePermission = (permission: any) => {
               position: "top-left",
               type: "success",
             });
-            fetchPermissions();
+            updateComponent();
             param.method();
           });
         },

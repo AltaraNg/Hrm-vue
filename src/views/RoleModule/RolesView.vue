@@ -213,7 +213,7 @@ const deleteRole = (role: any) => {
                 position: "top-left",
                 type: "success",
               });
-              fetchRoles();
+              updateComponent();
               param.method();
             })
             .catch((err) => {
@@ -257,7 +257,7 @@ const showCreateModal = () => {
     },
     on: {
       cancel(close: any) {
-        close();
+        updateComponent();
       },
     },
   });

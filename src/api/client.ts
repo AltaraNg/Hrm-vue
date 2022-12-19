@@ -18,8 +18,8 @@ export const get = (url: string) =>
     }
 
   });
-export const post = (url: string, data: object) => {
-  return instance({
+export const post = (url: string, data: object) =>
+  instance({
     method: "POST",
     url,
     data,
@@ -28,7 +28,7 @@ export const post = (url: string, data: object) => {
       Authorization: `Bearer ${auth.token}`,
     }
   });
-};
+
 export const put = (url: string, data: object) => {
   return instance({
     method: "PUT",
