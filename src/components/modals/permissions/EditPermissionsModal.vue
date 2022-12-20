@@ -6,7 +6,7 @@
     v-slot="{ close }"
   >
     <div class="font-bold bg-altara-blue text-white p-2 flex justify-between">
-      <span class="font-bold bg-altara-blue text-white">Create Permission</span>
+      <span class="font-bold bg-altara-blue text-white">Edit Permission</span>
       <span
         class="text-xl font-outfit font-bold cursor-pointer mx-3"
         @click="close"
@@ -29,6 +29,7 @@
           type="text"
           label="Permission"
           validation="required"
+          v-model="permissionItem.name"
           :classes="{
             outer: 'w-full',
             label: 'block font-outfit text-sm',
@@ -62,21 +63,25 @@
 </template>
 
 <script setup lang="ts">
-import { post } from "@/api/client";
+import { put } from "@/api/client";
 import { createToast } from "mosha-vue-toastify";
 import { $vfm } from "vue-final-modal";
+import { ref } from "vue";
+
+const permissionItem = ref($vfm.dynamicModals[0].params.item);
+
 const emit = defineEmits(["cancel"]);
 async function onSubmit(data: any) {
-  return await post("/api/permissions", { name: data.permissionName }).then(
-    () => {
-      createToast("Permission Added Successfully", {
-        position: "top-left",
-        type: "success",
-      });
-      emit("cancel");
-      $vfm.hide("VCreatePermissionModal").then(() => {});
-    }
-  );
+  return await put(`/api/permissions/${permissionItem.value.id}`, {
+    name: data.permissionName,
+  }).then(() => {
+    createToast("Permission Updated Successfully", {
+      position: "top-left",
+      type: "success",
+    });
+    emit("cancel");
+    $vfm.hide("VEditPermissionModal").then(() => {});
+  });
 }
 </script>
 

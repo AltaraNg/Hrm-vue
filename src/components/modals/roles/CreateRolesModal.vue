@@ -79,7 +79,6 @@ import { $vfm } from "vue-final-modal";
 import { createToast } from "mosha-vue-toastify";
 import PermissionComponent from "@/components/PermissionComponent.vue";
 import { useGeneralStore } from "@/stores/generalStore";
-import axios from "axios";
 
 const emit = defineEmits(["cancel"]);
 const permissions = ref();

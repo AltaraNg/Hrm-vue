@@ -22,7 +22,7 @@
           >
         </div>
         <table
-          class="border-collapse rounded-t font-bold w-full my-table-spacing text-xs mb-10"
+          class="border-collapse rounded-t font-bold w-full h-5/6 overflow-y-auto my-table-spacing text-sm mb-10"
         >
           <thead class="bg-sidebar-bg text-table-text rounded">
             <tr class="">
@@ -45,6 +45,7 @@
                   src="@/assets/delete_icon.svg"
                   alt="edit"
                   class="inline mr-4 cursor-pointer"
+                  @click="editPermission(permission)"
                 />
                 <img
                   src="@/assets/edit_icon.svg"
@@ -92,6 +93,7 @@ import { $emptyObject } from "@/utilities/globalFunctions";
 import createPermissionModal from "@/components/modals/permissions/createPermissionModal.vue";
 import DeleteConfirmModal from "@/components/modals/DeleteConfirmModal.vue";
 import { useRoute, useRouter } from "vue-router";
+import EditPermissionsModal from "@/components/modals/permissions/EditPermissionsModal.vue";
 
 const permissions = ref();
 const router = useRouter();
@@ -150,9 +152,8 @@ const showCreateModal = () => {
       name: "VCreatePermissionModal",
     },
     on: {
-      cancel(close: any) {
-        console.log(close);
-        updateComponent();
+      cancel() {
+        fetchPermissions();
       },
     },
   });
@@ -213,6 +214,23 @@ const nextPage = () => {
       });
     });
   useGeneralStore().toggleLoader();
+};
+
+const editPermission = (permission: any) => {
+  $vfm.show(
+    {
+      component: EditPermissionsModal,
+      bind: {
+        name: "VEditPermissionsModal",
+      },
+      on: {
+        cancel() {
+          fetchPermissions();
+        },
+      },
+    },
+    { name: "role", item: permission }
+  );
 };
 
 const previousPage = () => {

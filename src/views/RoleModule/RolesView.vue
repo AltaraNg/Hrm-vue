@@ -41,7 +41,11 @@
                 {{ role.name }}
               </td>
               <td class="p-2 border border-t-0 text-left">
-                {{ role.permissions }}
+                <span
+                  v-for="(permission, index) in role.permissions"
+                  :key="index"
+                  >{{ permission.name }},
+                </span>
               </td>
 
               <td class="p-2 border border-t-0 border-r-0 w-1/5">
@@ -141,6 +145,7 @@ const updateComponent = async function name() {
 };
 
 $emptyObject(route.query) ? fetchRoles() : updateComponent();
+
 const nextPage = async () => {
   useGeneralStore().toggleLoader();
 
@@ -240,8 +245,8 @@ const editRole = (role: any) => {
         name: "VEditRolesModal",
       },
       on: {
-        cancel(close: any) {
-          close();
+        cancel() {
+          fetchRoles();
         },
       },
     },
@@ -256,8 +261,8 @@ const showCreateModal = () => {
       name: "VCreateRolesModal",
     },
     on: {
-      cancel(close: any) {
-        updateComponent();
+      cancel() {
+        fetchRoles();
       },
     },
   });
