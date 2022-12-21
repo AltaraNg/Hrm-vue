@@ -5,8 +5,8 @@ export const useGeneralStore = defineStore("loader", {
     loading: false
   }),
   actions: {
-    toggleLoader(){
-      this.loading = !this.loading;
+    toggleLoader(s: boolean){
+      this.loading = s;
     }
   }
 });

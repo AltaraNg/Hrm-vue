@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/stores/auth";
+import { useGeneralStore } from "@/stores/generalStore";
 import { ref } from "vue";
 
 const staffId = ref("");
@@ -7,12 +8,13 @@ const password = ref("");
 const loading = ref(false);
 
 async function onSubmit(credentials: any) {
-  loading.value = !loading.value;
+  useGeneralStore().toggleLoader(true);
+
   const authStore = useAuthStore();
   let { staffId, password } = credentials;
 
   let res = await authStore.signin(staffId, password);
-  loading.value = !loading.value;
+  useGeneralStore().toggleLoader(false);
 }
 </script>
 

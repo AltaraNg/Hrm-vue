@@ -1,7 +1,7 @@
 <template>
   <vue-final-modal
     v-bind="$attrs"
-    classes="mx-auto bg-white h-fit  my-3 w-2/5 rounded-lg"
+    classes="mx-auto bg-white h-fit my-auto w-2/3 rounded-lg font-outfit"
     content-class="modal-content"
     v-slot="{ close }"
   >
@@ -100,7 +100,7 @@ const fetchPermissions = () => {
 fetchPermissions();
 
 const onSubmit = async (data: any) => {
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(true);
   try {
     let res = await post("/api/roles", {
       name: data.roleName,
@@ -140,7 +140,7 @@ const onSubmit = async (data: any) => {
     console.log(error.config);
   }
 
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(false);
 };
 
 const addToPermission = (perm: any) => {
