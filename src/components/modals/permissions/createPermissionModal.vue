@@ -1,7 +1,7 @@
 <template>
   <vue-final-modal
     v-bind="$attrs"
-    classes="mx-auto bg-white h-fit  my-3 w-2/5 rounded-lg"
+    classes="mx-auto bg-white h-fit my-auto w-3/5 rounded-lg font-outfit"
     content-class="modal-content"
     v-slot="{ close }"
   >

@@ -108,7 +108,7 @@ const filterList = ref([
 ]);
 
 const fetchRoles = async () => {
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(true);
   await get("api/roles" + `?per_page=10`)
     .then((res) => {
       roles.value = res.data.data[0].roles;
@@ -122,11 +122,11 @@ const fetchRoles = async () => {
         type: "danger",
       });
     });
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(false);
 };
 
 const updateComponent = async function name() {
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(true);
   await get("api/roles" + queryParams(route.query))
     .then((res) => {
       roles.value = res.data.data[0].roles;
@@ -141,13 +141,13 @@ const updateComponent = async function name() {
         type: "danger",
       });
     });
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(false);
 };
 
 $emptyObject(route.query) ? fetchRoles() : updateComponent();
 
 const nextPage = async () => {
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(true);
 
   let next = pageInfo.value.nextPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
@@ -171,11 +171,11 @@ const nextPage = async () => {
         type: "danger",
       });
     });
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(false);
 };
 
 const previousPage = async () => {
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(true);
 
   let prev = pageInfo.value.previousPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
@@ -200,7 +200,7 @@ const previousPage = async () => {
         type: "danger",
       });
     });
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(false);
 };
 
 const deleteRole = (role: any) => {

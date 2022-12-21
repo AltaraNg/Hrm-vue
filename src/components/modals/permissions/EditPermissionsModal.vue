@@ -1,7 +1,7 @@
 <template>
   <vue-final-modal
     v-bind="$attrs"
-    classes="mx-auto bg-white h-fit  my-3 w-2/5 rounded-lg"
+    classes="mx-auto bg-white h-fit my-auto w-3/5 rounded-lg font-outfit"
     content-class="modal-content"
     v-slot="{ close }"
   >
@@ -53,6 +53,7 @@
           <button
             class="bg-altara-blue text-white p-2 rounded-md text-sm"
             type="submit"
+            :disabled="useGeneralStore().loading"
           >
             Submit
           </button>
@@ -67,11 +68,14 @@ import { put } from "@/api/client";
 import { createToast } from "mosha-vue-toastify";
 import { $vfm } from "vue-final-modal";
 import { ref } from "vue";
+import { useGeneralStore } from "@/stores/generalStore";
 
 const permissionItem = ref($vfm.dynamicModals[0].params.item);
 
 const emit = defineEmits(["cancel"]);
 async function onSubmit(data: any) {
+  useGeneralStore().toggleLoader(true);
+
   return await put(`/api/permissions/${permissionItem.value.id}`, {
     name: data.permissionName,
   }).then(() => {

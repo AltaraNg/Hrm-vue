@@ -108,7 +108,7 @@ const filterList = ref([
 ]);
 
 const fetchPermissions = async () => {
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(true);
 
   await get("api/permissions" + "?per_page=10")
     .then((res) => {
@@ -123,11 +123,11 @@ const fetchPermissions = async () => {
         type: "danger",
       });
     });
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(false);
 };
 
 const updateComponent = async function name() {
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(true);
   await get("api/permissions" + queryParams(route.query))
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
@@ -142,7 +142,7 @@ const updateComponent = async function name() {
         type: "danger",
       });
     });
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(false);
 };
 
 const showCreateModal = () => {
@@ -189,7 +189,7 @@ const deletePermission = (permission: any) => {
 $emptyObject(route.query) ? fetchPermissions() : updateComponent();
 
 const nextPage = () => {
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(true);
 
   let next = pageInfo.value.nextPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
@@ -213,7 +213,7 @@ const nextPage = () => {
         type: "danger",
       });
     });
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(false);
 };
 
 const editPermission = (permission: any) => {
@@ -234,7 +234,7 @@ const editPermission = (permission: any) => {
 };
 
 const previousPage = () => {
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(true);
 
   let prev = pageInfo.value.previousPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
@@ -258,7 +258,7 @@ const previousPage = () => {
         type: "danger",
       });
     });
-  useGeneralStore().toggleLoader();
+  useGeneralStore().toggleLoader(false);
 };
 </script>
 
