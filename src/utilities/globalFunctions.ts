@@ -7,9 +7,9 @@ export const $humanizeDate = (date: Date) => {
     let formatted = moment(date);
     return moment(formatted).fromNow();
 }
-export const $LIPS = function () {//s is a boolean
+export const $LIPS = function (s: boolean) {//s is a boolean
     // this.$store.state.loader = this.$isProcessing = s;
-    useGeneralStore().toggleLoader();
+    useGeneralStore().toggleLoader(s);
 };
 
 export const $emptyObject = function (o: any) {
