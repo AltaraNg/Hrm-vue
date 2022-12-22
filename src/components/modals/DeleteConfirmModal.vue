@@ -22,7 +22,7 @@
         <img src="@/assets/warning_icon.svg" alt="warning" class="mx-auto" />
       </div>
       <div class="my-3">
-        <h3 class="font-bold text-xl">
+        <h3 class="font-bold text-xl w-5/6 mx-auto">
           Are you sure you want to delete this {{ params.name }}?
         </h3>
         <p class="text-xs my-1">

@@ -102,9 +102,9 @@ const pageInfo = ref();
 const loading = ref(true);
 const OId = ref(1);
 const filterList = ref([
-  { id: 1, name: "Role Name", value: "name" },
-  { id: 2, name: "Permission", value: "permision" },
-  { id: 3, name: "Status", value: "name" },
+  { id: 1, name: "Role Name", value: "name", type: "text" },
+  { id: 2, name: "Permission", value: "permision", type: "text" },
+  { id: 3, name: "Status", value: "name", type: "select" },
 ]);
 
 const fetchRoles = async () => {

@@ -13,7 +13,7 @@ async function onSubmit(credentials: any) {
   const authStore = useAuthStore();
   let { staffId, password } = credentials;
 
-  let res = await authStore.signin(staffId, password);
+  await authStore.signin(staffId, password);
   useGeneralStore().toggleLoader(false);
 }
 </script>
