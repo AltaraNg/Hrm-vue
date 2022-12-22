@@ -6,7 +6,10 @@
         <h3 class="font-bold text-lg text-altara-blue">Permissions</h3>
         <div class="flex">
           <div class="mx-2">
-            <SearchComponent :filter-list="filterList"></SearchComponent>
+            <SearchComponent
+              :filter-list="filterList"
+              @submit="searchQuery"
+            ></SearchComponent>
           </div>
         </div>
       </div>
@@ -102,10 +105,10 @@ const pageInfo = ref();
 const loading = ref(true);
 const OId = ref(1);
 const filterList = ref([
-  { id: 2, name: "Permission", value: "permision", type: "text" },
+  { id: 1, name: "name", value: "permision", type: "text" },
   {
-    id: 3,
-    name: "Status",
+    id: 2,
+    name: "status",
     value: "status",
     type: "select",
     options: ["active", "inactive"],
@@ -119,6 +122,25 @@ const fetchPermissions = async () => {
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
       pageInfo.value = res.data.data[0].pagination;
+      loading.value = false;
+    })
+    .catch((err) => {
+      loading.value = false;
+      createToast(err.response.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
+    });
+  useGeneralStore().toggleLoader(false);
+};
+
+const searchQuery = async (query: any) => {
+  useGeneralStore().toggleLoader(true);
+  await get("api/permissions" + queryParams(query))
+    .then((res) => {
+      permissions.value = res.data.data[0].permissions;
+      pageInfo.value = res.data.data[0].pagination;
+      OId.value = (pageInfo.value.currentPage - 1) * 10 + 1;
       loading.value = false;
     })
     .catch((err) => {

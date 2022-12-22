@@ -12,13 +12,18 @@
         <input
           class="w-fit px-2 py-2 border-none text-gray-700 placeholder-gray-400 bg-sidebar-bg rounded-sm"
           v-if="item.type === 'text'"
+          v-model="inputModel[`${item.value}`]"
           type="text"
           :placeholder="item.name"
         />
         <select
           v-else-if="item.type === 'select'"
+          v-model="inputModel[`${item.value}`]"
           class="w-fit px-2 py-2 border-none text-gray-700 placeholder-gray-400 bg-sidebar-bg rounded-sm"
         >
+          <option value="" :selected="true" disabled>
+            --{{ item.name }}--
+          </option>
           <option
             v-for="(option, index) in item.options"
             :value="option"
@@ -31,7 +36,8 @@
 
       <button
         class="bg-altara-blue py-2 rounded-lg text-white text-sm px-8"
-        v-if="inputList"
+        v-if="inputList.length !== 0"
+        @click="submitQuery"
       >
         Apply
       </button>
@@ -62,21 +68,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 defineProps<{
   filterList?: any;
 }>();
 
 const showModal = ref(false);
-const inputList: {
-  name?: string;
-  options?: [];
-  type?: string;
-}[] = reactive([] || "");
-const inputModel = ref();
+const inputList: any = ref([]);
+const inputModel: any = ref({});
+const emit = defineEmits(["submit"]);
 
 const toggleModal = function () {
   showModal.value = !showModal.value;
+};
+
+const submitQuery = function () {
+  emit("submit", inputModel.value);
 };
 </script>
 
