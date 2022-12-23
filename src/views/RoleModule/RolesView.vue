@@ -30,7 +30,7 @@
             <tr class="">
               <th class="py-3">#</th>
               <th class="py-3">Roles</th>
-              <th class="py-3">Permission</th>
+              <th class="py-3">Permissions</th>
 
               <th class="py-3">Actions</th>
             </tr>
@@ -44,11 +44,7 @@
                 {{ role.name }}
               </td>
               <td class="p-2 border border-t-0 text-left">
-                <span
-                  v-for="(permission, index) in role.permissions"
-                  :key="index"
-                  >{{ permission.name }},
-                </span>
+                {{ transformPerm(role.permissions) }}
               </td>
 
               <td class="p-2 border border-t-0 border-r-0 w-1/5">
@@ -97,6 +93,7 @@ import queryParams from "@/utilities/queryParams";
 import { $emptyObject } from "@/utilities/globalFunctions";
 import { useRouter, useRoute } from "vue-router";
 import EditRolesModal from "@/components/modals/roles/EditRolesModal.vue";
+import { truncate } from "lodash";
 
 const router = useRouter();
 const route = useRoute();
@@ -151,6 +148,13 @@ const searchQuery = async (query: any) => {
       });
     });
   useGeneralStore().toggleLoader(false);
+};
+
+const transformPerm = (perm: any) => {
+  let list = perm.map((item: any) => item.name);
+  return truncate(list.join(", "), {
+    length: 100,
+  });
 };
 
 const updateComponent = async function name() {

@@ -1,11 +1,7 @@
 <template>
   <div class="py-2 font-outfit">
     <div class="flex justify-between">
-      <div>
-        <select class="border px-2" v-model="perPage">
-          <option :value="n" v-for="n in 10" :key="n">{{ n }}</option>
-        </select>
-      </div>
+      <div></div>
       <div class="flex">
         <span
           class="mx-2 text-gray-500"
@@ -33,7 +29,7 @@ import { ref } from "vue";
 const props = defineProps<{
   pageInfo?: any;
 }>();
-const perPage = ref(props.pageInfo.perPage);
+// const perPage = ref(props.pageInfo.perPage);
 </script>
 
 <style scoped></style>

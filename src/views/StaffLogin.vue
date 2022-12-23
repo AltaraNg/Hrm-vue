@@ -89,7 +89,7 @@ async function onSubmit(credentials: any) {
         </div>
         <button
           type="submit"
-          class="bg-altara-blue text-white p-2 w-full rounded-md text-center"
+          class="bg-altara-blue text-white p-2 w-full rounded-md text-center hover:bg-altara-blue-solar hover:text-altara-blue"
           :disabled="loading"
           :class="{ 'bg-slate-400': loading }"
         >

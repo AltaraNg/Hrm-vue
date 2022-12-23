@@ -63,20 +63,45 @@
 
 <script setup lang="ts">
 import { post } from "@/api/client";
+import { useGeneralStore } from "@/stores/generalStore";
 import { createToast } from "mosha-vue-toastify";
 import { $vfm } from "vue-final-modal";
 const emit = defineEmits(["cancel"]);
 async function onSubmit(data: any) {
-  return await post("/api/permissions", { name: data.permissionName }).then(
-    () => {
+  useGeneralStore().toggleLoader(true);
+  try {
+    let res = await post("/api/permissions", { name: data.permissionName });
+    if (res) {
       createToast("Permission Added Successfully", {
         position: "top-left",
         type: "success",
       });
       emit("cancel");
       $vfm.hide("VCreatePermissionModal").then(() => {});
+    } else {
+      createToast("Permission already exists", {
+        position: "top-left",
+        type: "danger",
+      });
     }
-  );
+    useGeneralStore().toggleLoader(false);
+  } catch (error) {
+    useGeneralStore().toggleLoader(false);
+  }
+
+  // .then(() => {
+  //   createToast("Permission Added Successfully", {
+  //     position: "top-left",
+  //     type: "success",
+  //   });
+  //   emit("cancel");
+  //   $vfm.hide("VCreatePermissionModal").then(() => {});
+  // })
+  // .catch((err) => {
+  //   if (err.response.status === 422) {
+  //     console.log(err);
+  //   }
+  // });
 }
 </script>
 

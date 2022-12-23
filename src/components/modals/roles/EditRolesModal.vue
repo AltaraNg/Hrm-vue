@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { get, put } from "@/api/client";
+import { get, patch } from "@/api/client";
 import { ref, reactive } from "vue";
 import { $vfm } from "vue-final-modal";
 import { createToast } from "mosha-vue-toastify";
@@ -101,7 +101,7 @@ const fetchPermissions = () => {
 fetchPermissions();
 
 async function onSubmit(data: any) {
-  return await put(`/api/roles/${roleItem.value.id}`, {
+  return await patch(`/api/roles/${roleItem.value.id}`, {
     name: data.roleName,
     permissions: permissionsList,
   }).then(() => {

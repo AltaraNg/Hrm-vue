@@ -41,6 +41,18 @@ export const put = (url: string, data: object) => {
   });
 };
 
+export const patch = (url: string, data: object) => {
+  return instance({
+    method: "PATCH",
+    url,
+    data,
+    headers: {
+      'Access-Control-Allow-Credentials': true,
+      Authorization: `Bearer ${auth.token}`,
+    }
+  });
+};
+
 export const del = (url: string) => {
   return instance({
     method: "DELETE",

@@ -57,7 +57,7 @@
               />Accounting</RouterLink
             >
           </li>
-          <li class="my-2">
+          <!-- <li class="my-2">
             <RouterLink
               to="settings"
               :active-class="'text-altara-blue font-bold'"
@@ -66,7 +66,7 @@
                 class="inline mr-3"
               />Settings</RouterLink
             >
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
