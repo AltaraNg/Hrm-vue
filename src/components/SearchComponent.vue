@@ -52,7 +52,7 @@
           <img
             src="@/assets/close_icon.svg"
             alt="close"
-            class="block"
+            class="block cursor-pointer"
             @click="toggleModal"
           />
         </div>

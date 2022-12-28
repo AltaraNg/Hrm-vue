@@ -159,7 +159,7 @@ const transformPerm = (perm: any) => {
 
 const updateComponent = async function name() {
   useGeneralStore().toggleLoader(true);
-  await get("api/roles" + queryParams(route.query))
+  await get("api/roles" + queryParams({ per_page: 10, ...route.query }))
     .then((res) => {
       roles.value = res.data.data[0].roles;
       pageInfo.value = res.data.data[0].pagination;
@@ -278,7 +278,7 @@ const editRole = (role: any) => {
       },
       on: {
         cancel() {
-          fetchRoles();
+          updateComponent();
         },
       },
     },
@@ -294,7 +294,7 @@ const showCreateModal = () => {
     },
     on: {
       cancel() {
-        fetchRoles();
+        updateComponent();
       },
     },
   });

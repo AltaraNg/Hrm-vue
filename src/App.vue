@@ -1,15 +1,13 @@
 <script setup lang="ts">
-// @ts-nocheck
 import { RouterView } from "vue-router";
-import { ModalsContainer } from "vue-final-modal";
 import LoaderVue from "./components/LoaderVue.vue";
 </script>
 
 <template>
   <div class="bg-white">
-    <LoaderVue></LoaderVue>
+    <LoaderVue class="z-50"></LoaderVue>
+
     <RouterView />
-    <ModalsContainer></ModalsContainer>
   </div>
 </template>
 
