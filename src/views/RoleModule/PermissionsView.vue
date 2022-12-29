@@ -106,13 +106,6 @@ const loading = ref(true);
 const OId = ref(1);
 const filterList = ref([
   { id: 1, name: "name", value: "permision", type: "text" },
-  {
-    id: 2,
-    name: "status",
-    value: "status",
-    type: "select",
-    options: ["active", "inactive"],
-  },
 ]);
 
 const fetchPermissions = async () => {
