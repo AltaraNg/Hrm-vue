@@ -1,7 +1,7 @@
 <template>
   <vue-final-modal
     v-bind="$attrs"
-    classes="mx-auto bg-white h-fit my-auto w-3/12 rounded-lg font-outfit"
+    classes="mx-auto bg-white h-fit my-auto w-5/12 rounded-lg font-outfit"
     content-class="modal-content"
     v-slot="{ close }"
     :z-index-base="1"
@@ -45,14 +45,38 @@
             message: 'text-red-500 text-xs',
           }"
         ></FormKit>
+        <div v-if="roleItem.permissions.length > 0" class="my-2">
+          <div>Role Permissions</div>
+          <div class="my-1 flex flex-wrap">
+            <PermissionComponent
+              @selected="addToPermission"
+              @deselected="removeFromPermission"
+              v-for="(permission, index) in roleItem.permissions"
+              :permission="permission"
+              :key="index"
+            ></PermissionComponent>
+          </div>
+        </div>
+        <div>
+          <div>Available Permissions</div>
+          <div class="my-1 flex flex-wrap">
+            <PermissionComponent
+              @selected="addToPermission"
+              @deselected="removeFromPermission"
+              v-for="(permission, index) in permissions"
+              :permission="permission"
+              :key="index"
+            ></PermissionComponent>
+          </div>
+        </div>
 
         <div class="my-5 text-right">
-          <button
-            class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm"
-            type="reset"
+          <span
+            class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm cursor-pointer"
+            @click="closeModal"
           >
             Cancel
-          </button>
+          </span>
           <button
             class="bg-altara-blue text-white p-2 rounded-md text-sm"
             type="submit"
@@ -66,10 +90,12 @@
 </template>
 
 <script setup lang="ts">
-import { get, patch } from "@/api/client";
+import { get, patch, put } from "@/api/client";
 import { ref, reactive } from "vue";
 import { $vfm } from "vue-final-modal";
 import { createToast } from "mosha-vue-toastify";
+import PermissionComponent from "@/components/PermissionComponent.vue";
+import { useGeneralStore } from "@/stores/generalStore";
 
 const emit = defineEmits(["cancel"]);
 const permissions = ref();
@@ -78,9 +104,12 @@ const roleItem = ref($vfm.dynamicModals[0].params.item);
 
 permissionsList.splice(0, 1);
 const fetchPermissions = () => {
+  useGeneralStore().toggleLoader(true);
+
   get("/api/permissions")
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
+      useGeneralStore().toggleLoader(false);
     })
     .catch((err) => {
       createToast(err.response.data.message, {
@@ -92,17 +121,37 @@ const fetchPermissions = () => {
 fetchPermissions();
 
 async function onSubmit(data: any) {
-  return await patch(`/api/roles/${roleItem.value.id}`, {
+  useGeneralStore().toggleLoader(true);
+
+  let result = await put(`/api/roles/${roleItem.value.id}`, {
     name: data.roleName,
-  }).then(() => {
+  });
+
+  let permResult = await patch(
+    `/api/assign/permission/to/role/${roleItem.value.id}`,
+    { permissions: permissionsList }
+  );
+  if (permResult && result) {
     createToast("Role Updated Successfully", {
       position: "top-left",
       type: "success",
     });
     emit("cancel");
     $vfm.hide("VEditRolesModal").then(() => {});
-  });
+  }
+  useGeneralStore().toggleLoader(false);
 }
+
+const addToPermission = (perm: any) => {
+  permissionsList.push(perm.id);
+};
+const removeFromPermission = (perm: any) => {
+  let index = permissionsList.indexOf(perm.id);
+  index > -1 ? permissionsList.splice(index, 1) : "";
+};
+const closeModal = () => {
+  $vfm.hide("VEditRolesModal").then(() => {});
+};
 </script>
 
 <style scoped></style>

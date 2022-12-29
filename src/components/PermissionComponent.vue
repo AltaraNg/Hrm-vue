@@ -29,6 +29,7 @@ const props = defineProps<{
 const emit = defineEmits(["selected", "deselected"]);
 const checked = ref(false);
 const toggleCheck = (perm: any) => {
+  console.log(props);
   checked.value = !checked.value;
   checked.value ? emit("selected", perm) : emit("deselected", perm);
 };

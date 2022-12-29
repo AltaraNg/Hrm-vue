@@ -56,12 +56,12 @@
         </div>
 
         <div class="my-5 text-right">
-          <button
-            class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm"
-            type="reset"
+          <span
+            class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm cursor-pointer"
+            @click="closeModal"
           >
             Cancel
-          </button>
+          </span>
           <button
             class="bg-altara-blue text-white p-2 rounded-md text-sm"
             type="submit"
@@ -78,9 +78,10 @@
 import { get, post } from "@/api/client";
 import { ref, reactive } from "vue";
 import { $vfm } from "vue-final-modal";
-import { createToast } from "mosha-vue-toastify";
+import { createToast, withProps } from "mosha-vue-toastify";
 import PermissionComponent from "@/components/PermissionComponent.vue";
 import { useGeneralStore } from "@/stores/generalStore";
+import CustomizedMessage from "@/components/toast/CustomizedMessage.vue";
 
 const emit = defineEmits(["cancel"]);
 const permissions = ref();
@@ -112,18 +113,26 @@ const onSubmit = async (data: any) => {
       permissions: permissionsList,
     });
     if (res) {
-      createToast("Role Successfully created", {
-        position: "top-left",
-        type: "success",
-      });
+      createToast(
+        withProps(CustomizedMessage, { message: "Role Created Successfully" }),
+        {
+          position: "top-left",
+          type: "success",
+        }
+      );
       $vfm.hide("VCreateRolesModal").then(() => {});
 
       emit("cancel");
     } else {
-      createToast("There is an error in your request", {
-        position: "top-left",
-        type: "danger",
-      });
+      createToast(
+        withProps(CustomizedMessage, {
+          message: "There is an error in your request",
+        }),
+        {
+          position: "top-left",
+          type: "danger",
+        }
+      );
     }
   } catch (error: any) {
     // Error
@@ -154,6 +163,9 @@ const addToPermission = (perm: any) => {
 const removeFromPermission = (perm: any) => {
   let index = permissionsList.indexOf(perm.id);
   index > -1 ? permissionsList.splice(index, 1) : "";
+};
+const closeModal = () => {
+  $vfm.hide("VCreateRolesModal").then(() => {});
 };
 </script>
 
