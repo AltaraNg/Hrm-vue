@@ -62,6 +62,7 @@
         </table>
         <div class="absolute bottom-0 w-11/12">
           <PaginationComponent
+            @fetchPage="fetchPage"
             @next="nextPage"
             @previous="previousPage"
             class=""
@@ -234,6 +235,31 @@ const nextPage = () => {
         query: { per_page: 10, page: pageInfo.value.currentPage },
       });
       OId.value = OId.value + pageInfo.value.perPage;
+    })
+    .catch((err) => {
+      loading.value = false;
+      createToast(err.response.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
+    });
+  useGeneralStore().toggleLoader(false);
+};
+
+const fetchPage = (page: any) => {
+  useGeneralStore().toggleLoader(true);
+
+  get("api/permissions" + `?per_page=10&page=${page}`)
+    .then((res) => {
+      permissions.value = res.data.data[0].permissions;
+      pageInfo.value = res.data.data[0].pagination;
+      loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10, page: page },
+      });
+      OId.value = 1;
+      OId.value = OId.value + pageInfo.value.perPage * (page - 1);
     })
     .catch((err) => {
       loading.value = false;

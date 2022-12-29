@@ -11,7 +11,19 @@
           @click="pageInfo.previousPageUrl ? $emit('previous') : ''"
           >Previous</span
         >
-        <span class="mx-2 bg-orange-400 px-2">{{ pageInfo.currentPage }}</span>
+        <span class="mx-2 bg-orange-400 px-2"
+          ><input
+            type="text"
+            class="bg-orange-400 text-center border-0 outline-none"
+            v-model="currentPage"
+            size="2"
+            maxlength="2"
+            @change="
+              currentPage <= pageInfo.lastPage
+                ? $emit('fetchPage', currentPage)
+                : ''
+            "
+        /></span>
         <span
           class="mx-2 text-gray-500"
           :class="{ 'hover:cursor-pointer text-black': pageInfo.nextPageUrl }"
@@ -29,7 +41,11 @@ import { ref } from "vue";
 const props = defineProps<{
   pageInfo?: any;
 }>();
+const currentPage = ref(props.pageInfo.currentPage);
 // const perPage = ref(props.pageInfo.perPage);
+const doSome = function () {
+  console.log(currentPage.value);
+};
 </script>
 
 <style scoped></style>

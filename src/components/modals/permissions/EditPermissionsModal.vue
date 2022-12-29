@@ -1,7 +1,7 @@
 <template>
   <vue-final-modal
     v-bind="$attrs"
-    classes="mx-auto bg-white h-fit my-auto w-3/5 rounded-lg font-outfit"
+    classes="mx-auto bg-white h-fit my-auto w-5/12 rounded-lg font-outfit"
     content-class="modal-content"
     v-slot="{ close }"
     :z-index-base="1"
@@ -45,12 +45,12 @@
         ></FormKit>
 
         <div class="my-5 text-right">
-          <button
+          <span
             class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm"
-            type="reset"
+            @click="closeModal"
           >
             Cancel
-          </button>
+          </span>
           <button
             class="bg-altara-blue text-white p-2 rounded-md text-sm"
             type="submit"
@@ -88,6 +88,10 @@ async function onSubmit(data: any) {
     $vfm.hide("VEditPermissionModal").then(() => {});
   });
 }
+
+const closeModal = () => {
+  $vfm.hide("VEditPermissionModal").then(() => {});
+};
 </script>
 
 <style scoped></style>

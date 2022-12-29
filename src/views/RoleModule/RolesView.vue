@@ -70,6 +70,7 @@
             @previous="previousPage"
             class=""
             :page-info="pageInfo"
+            @fetchPage="fetchPage"
           ></PaginationComponent>
         </div>
       </div>
@@ -228,6 +229,31 @@ const previousPage = async () => {
       });
 
       OId.value = OId.value - pageInfo.value.perPage;
+    })
+    .catch((err) => {
+      loading.value = false;
+      createToast(err.response.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
+    });
+  useGeneralStore().toggleLoader(false);
+};
+
+const fetchPage = (page: any) => {
+  useGeneralStore().toggleLoader(true);
+
+  get("api/roles" + `?per_page=10&page=${page}`)
+    .then((res) => {
+      roles.value = res.data.data[0].roles;
+      pageInfo.value = res.data.data[0].pagination;
+      loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10, page: page },
+      });
+      OId.value = 1;
+      OId.value = OId.value + pageInfo.value.perPage * (page - 1);
     })
     .catch((err) => {
       loading.value = false;

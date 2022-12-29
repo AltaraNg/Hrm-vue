@@ -44,12 +44,12 @@
         ></FormKit>
 
         <div class="my-5 text-right">
-          <button
-            class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm"
-            type="reset"
+          <span
+            class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm cursor-pointer"
+            @click="closeModal"
           >
             Cancel
-          </button>
+          </span>
           <button
             class="bg-altara-blue text-white p-2 rounded-md text-sm"
             type="submit"
@@ -104,6 +104,10 @@ async function onSubmit(data: any) {
   //   }
   // });
 }
+
+const closeModal = () => {
+  $vfm.hide("VCreatePermissionModal").then(() => {});
+};
 </script>
 
 <style scoped></style>
