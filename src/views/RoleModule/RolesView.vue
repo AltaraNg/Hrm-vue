@@ -84,7 +84,7 @@ import { ref } from "vue";
 import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
-import { createToast } from "mosha-vue-toastify";
+import { createToast, withProps } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 import { $vfm } from "vue-final-modal";
 import DeleteConfirmModal from "@/components/modals/DeleteConfirmModal.vue";
@@ -95,6 +95,7 @@ import { $emptyObject } from "@/utilities/globalFunctions";
 import { useRouter, useRoute } from "vue-router";
 import EditRolesModal from "@/components/modals/roles/EditRolesModal.vue";
 import { truncate } from "lodash";
+import CustomizedMessage from "@/components/toast/CustomizedMessage.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -276,18 +277,26 @@ const deleteRole = (role: any) => {
         async confirm(param: any) {
           await del(`/api/roles/${param.item.id}`)
             .then((res) => {
-              createToast(res.data.message, {
-                position: "top-left",
-                type: "success",
-              });
+              createToast(
+                withProps(CustomizedMessage, {
+                  message: "Deleted Successfully",
+                }),
+                {
+                  position: "top-left",
+                  type: "success",
+                }
+              );
               updateComponent();
               param.method();
             })
             .catch((err) => {
-              createToast(err.data.message, {
-                position: "top-left",
-                type: "danger",
-              });
+              createToast(
+                withProps(CustomizedMessage, { message: "There was an error" }),
+                {
+                  position: "top-left",
+                  type: "danger",
+                }
+              );
             });
         },
         cancel(close: any) {

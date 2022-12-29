@@ -87,7 +87,7 @@ import { ref } from "vue";
 import AddButton from "@/components/buttons/AddButton.vue";
 import SearchComponent from "@/components/SearchComponent.vue";
 import PaginationComponent from "@/components/PaginationComponent.vue";
-import { createToast } from "mosha-vue-toastify";
+import { createToast, withProps } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 import { $vfm } from "vue-final-modal";
 import { useGeneralStore } from "@/stores/generalStore";
@@ -97,6 +97,7 @@ import createPermissionModal from "@/components/modals/permissions/createPermiss
 import DeleteConfirmModal from "@/components/modals/DeleteConfirmModal.vue";
 import { useRoute, useRouter } from "vue-router";
 import EditPermissionsModal from "@/components/modals/permissions/EditPermissionsModal.vue";
+import CustomizedMessage from "@/components/toast/CustomizedMessage.vue";
 
 const permissions = ref();
 const router = useRouter();
@@ -198,7 +199,7 @@ const deletePermission = (permission: any) => {
       on: {
         confirm(param: any) {
           del(`/api/permissions/${param.item.id}`).then((res) => {
-            createToast(res.data.message, {
+            createToast(withProps(CustomizedMessage, { message: "Deleted Successfully" }), {
               position: "top-left",
               type: "success",
             });

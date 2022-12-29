@@ -93,9 +93,10 @@
 import { get, patch, put } from "@/api/client";
 import { ref, reactive } from "vue";
 import { $vfm } from "vue-final-modal";
-import { createToast } from "mosha-vue-toastify";
+import { createToast, withProps } from "mosha-vue-toastify";
 import PermissionComponent from "@/components/PermissionComponent.vue";
 import { useGeneralStore } from "@/stores/generalStore";
+import CustomizedMessage from "@/components/toast/CustomizedMessage.vue";
 
 const emit = defineEmits(["cancel"]);
 const permissions = ref();
@@ -132,12 +133,25 @@ async function onSubmit(data: any) {
     { permissions: permissionsList }
   );
   if (permResult && result) {
-    createToast("Role Updated Successfully", {
-      position: "top-left",
-      type: "success",
-    });
+    createToast(
+      withProps(CustomizedMessage, { message: "Role Updated Successfully" }),
+      {
+        position: "top-left",
+        type: "success",
+      }
+    );
     emit("cancel");
     $vfm.hide("VEditRolesModal").then(() => {});
+  } else {
+    createToast(
+      withProps(CustomizedMessage, {
+        message: "There is an error with your request",
+      }),
+      {
+        position: "top-left",
+        type: "danger",
+      }
+    );
   }
   useGeneralStore().toggleLoader(false);
 }
