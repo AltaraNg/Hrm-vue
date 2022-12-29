@@ -46,7 +46,7 @@
 
         <div class="my-5 text-right">
           <span
-            class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm"
+            class="bg-altara-blue text-white p-2 rounded-md mx-2 text-sm cursor-pointer"
             @click="closeModal"
           >
             Cancel

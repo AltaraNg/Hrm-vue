@@ -240,10 +240,10 @@ const previousPage = async () => {
   useGeneralStore().toggleLoader(false);
 };
 
-const fetchPage = (page: any) => {
+const fetchPage = async (page: any) => {
   useGeneralStore().toggleLoader(true);
 
-  get("api/roles" + `?per_page=10&page=${page}`)
+  await get("api/roles" + `?per_page=10&page=${page}`)
     .then((res) => {
       roles.value = res.data.data[0].roles;
       pageInfo.value = res.data.data[0].pagination;

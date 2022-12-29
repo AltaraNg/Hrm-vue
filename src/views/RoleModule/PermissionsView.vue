@@ -65,7 +65,6 @@
             @fetchPage="fetchPage"
             @next="nextPage"
             @previous="previousPage"
-            class=""
             :page-info="pageInfo"
           ></PaginationComponent>
         </div>
@@ -218,14 +217,14 @@ const deletePermission = (permission: any) => {
 
 $emptyObject(route.query) ? fetchPermissions() : updateComponent();
 
-const nextPage = () => {
+const nextPage = async () => {
   useGeneralStore().toggleLoader(true);
 
   let next = pageInfo.value.nextPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
     ""
   );
-  get(next + `&per_page=10`)
+  await get(next + `&per_page=10`)
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
       pageInfo.value = res.data.data[0].pagination;
@@ -246,10 +245,10 @@ const nextPage = () => {
   useGeneralStore().toggleLoader(false);
 };
 
-const fetchPage = (page: any) => {
+const fetchPage = async (page: any) => {
   useGeneralStore().toggleLoader(true);
 
-  get("api/permissions" + `?per_page=10&page=${page}`)
+  await get("api/permissions" + `?per_page=10&page=${page}`)
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
       pageInfo.value = res.data.data[0].pagination;
@@ -288,14 +287,14 @@ const editPermission = (permission: any) => {
   );
 };
 
-const previousPage = () => {
+const previousPage = async () => {
   useGeneralStore().toggleLoader(true);
 
   let prev = pageInfo.value.previousPageUrl.replace(
     "http://hrm-play-api.herokuapp.com/",
     ""
   );
-  get(prev + `&per_page=10`)
+  await get(prev + `&per_page=10`)
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
       pageInfo.value = res.data.data[0].pagination;

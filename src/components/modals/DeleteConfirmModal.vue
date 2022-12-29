@@ -34,7 +34,7 @@
       </div>
       <div class="text-right mt-5 text-sm">
         <button
-          @click="$emit('cancel', close)"
+          @click="closeModal"
           class="p-2 bg-altara-blue-solar-border text-altara-blue mx-2 rounded-md"
         >
           Cancel
@@ -50,6 +50,12 @@
   </vue-final-modal>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { $vfm } from "vue-final-modal";
+
+const closeModal = () => {
+  $vfm.hide("VConfirmDeleteModal").then(() => {});
+};
+</script>
 
 <style scoped></style>

@@ -11,10 +11,10 @@
           @click="pageInfo.previousPageUrl ? $emit('previous') : ''"
           >Previous</span
         >
-        <span class="mx-2 bg-orange-400 px-2"
+        <span class="mx-2 bg-orange-400"
           ><input
             type="text"
-            class="bg-orange-400 text-center border-0 outline-none"
+            class="bg-orange-400 text-center border-0 outline-none py-1"
             v-model="currentPage"
             size="2"
             maxlength="2"
@@ -43,9 +43,6 @@ const props = defineProps<{
 }>();
 const currentPage = ref(props.pageInfo.currentPage);
 // const perPage = ref(props.pageInfo.perPage);
-const doSome = function () {
-  console.log(currentPage.value);
-};
 </script>
 
 <style scoped></style>
