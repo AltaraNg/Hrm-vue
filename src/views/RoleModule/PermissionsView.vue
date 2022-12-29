@@ -105,7 +105,7 @@ const pageInfo = ref();
 const loading = ref(true);
 const OId = ref(1);
 const filterList = ref([
-  { id: 1, name: "name", value: "permision", type: "text" },
+  { id: 1, name: "Permission", value: "name", type: "text" },
 ]);
 
 const fetchPermissions = async () => {
@@ -140,6 +140,10 @@ const searchQuery = async (query: any) => {
       pageInfo.value = res.data.data[0].pagination;
       OId.value = (pageInfo.value.currentPage - 1) * 10 + 1;
       loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10, ...query },
+      });
     })
     .catch((err) => {
       loading.value = false;

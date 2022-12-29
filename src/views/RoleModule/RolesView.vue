@@ -139,6 +139,10 @@ const searchQuery = async (query: any) => {
       pageInfo.value = res.data.data[0].pagination;
       OId.value = (pageInfo.value.currentPage - 1) * 10 + 1;
       loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10, ...query },
+      });
     })
     .catch((err) => {
       loading.value = false;
