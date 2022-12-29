@@ -5,7 +5,7 @@ import LoaderVue from "./components/LoaderVue.vue";
 
 <template>
   <div class="bg-white">
-    <LoaderVue class="z-50"></LoaderVue>
+    <LoaderVue></LoaderVue>
 
     <RouterView />
   </div>

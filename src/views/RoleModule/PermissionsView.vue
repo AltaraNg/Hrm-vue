@@ -120,9 +120,14 @@ const fetchPermissions = async () => {
 
   await get("api/permissions" + "?per_page=10")
     .then((res) => {
+      OId.value = 1;
       permissions.value = res.data.data[0].permissions;
       pageInfo.value = res.data.data[0].pagination;
       loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10 },
+      });
     })
     .catch((err) => {
       loading.value = false;
@@ -248,7 +253,7 @@ const editPermission = (permission: any) => {
     {
       component: EditPermissionsModal,
       bind: {
-        name: "VEditPermissionsModal",
+        name: "VEditPermissionModal",
       },
       on: {
         cancel() {

@@ -1,9 +1,10 @@
 <template>
   <vue-final-modal
     v-bind="$attrs"
-    classes="mx-auto bg-white h-fit my-auto w-2/3 rounded-lg font-outfit"
+    classes="mx-auto bg-white h-fit my-auto w-3/12 rounded-lg font-outfit"
     content-class="modal-content"
     v-slot="{ close }"
+    :z-index-base="1"
   >
     <div
       class="font-bold bg-altara-blue text-white p-2 flex justify-between rounded-t-md"
@@ -44,15 +45,6 @@
             message: 'text-red-500 text-xs',
           }"
         ></FormKit>
-        <div class="my-4 flex flex-wrap">
-          <PermissionComponent
-            @selected="addToPermission"
-            @deselected="removeFromPermission"
-            v-for="(permission, index) in permissions"
-            :permission="permission"
-            :key="index"
-          ></PermissionComponent>
-        </div>
 
         <div class="my-5 text-right">
           <button
@@ -78,7 +70,6 @@ import { get, patch } from "@/api/client";
 import { ref, reactive } from "vue";
 import { $vfm } from "vue-final-modal";
 import { createToast } from "mosha-vue-toastify";
-import PermissionComponent from "@/components/PermissionComponent.vue";
 
 const emit = defineEmits(["cancel"]);
 const permissions = ref();
@@ -103,7 +94,6 @@ fetchPermissions();
 async function onSubmit(data: any) {
   return await patch(`/api/roles/${roleItem.value.id}`, {
     name: data.roleName,
-    permissions: permissionsList,
   }).then(() => {
     createToast("Role Updated Successfully", {
       position: "top-left",
@@ -113,14 +103,6 @@ async function onSubmit(data: any) {
     $vfm.hide("VEditRolesModal").then(() => {});
   });
 }
-
-const addToPermission = (perm: any) => {
-  permissionsList.push(perm.id);
-};
-const removeFromPermission = (perm: any) => {
-  let index = permissionsList.indexOf(perm.id);
-  index > -1 ? permissionsList.splice(index, 1) : "";
-};
 </script>
 
 <style scoped></style>

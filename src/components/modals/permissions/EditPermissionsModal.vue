@@ -4,6 +4,7 @@
     classes="mx-auto bg-white h-fit my-auto w-3/5 rounded-lg font-outfit"
     content-class="modal-content"
     v-slot="{ close }"
+    :z-index-base="1"
   >
     <div class="font-bold bg-altara-blue text-white p-2 flex justify-between">
       <span class="font-bold bg-altara-blue text-white">Edit Permission</span>

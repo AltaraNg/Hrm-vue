@@ -51,7 +51,7 @@
                 <img
                   src="@/assets/delete_icon.svg"
                   alt="edit"
-                  class="inline mr-4 cursor-pointer"
+                  class="inline mr-4 cursor-pointer group"
                   @click="editRole(role)"
                 />
                 <img
