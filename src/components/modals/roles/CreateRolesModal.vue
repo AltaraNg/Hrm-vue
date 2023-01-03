@@ -93,7 +93,7 @@ permissionsList.splice(0, 1);
 const fetchPermissions = () => {
   useGeneralStore().toggleLoader(true);
 
-  get("/api/permissions")
+  get("/api/permissions?per_page=100")
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
       formatPermissions.value = permissions.value.map((item: any) => {
@@ -140,13 +140,20 @@ const onSubmit = async (data: any) => {
       );
     }
   } catch (error: any) {
+    console.log(error);
     // Error
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      // console.log(error.response.data);
-      // console.log(error.response.status);
-      // console.log(error.response.headers);
+      createToast(
+        withProps(CustomizedMessage, {
+          message: error.response.data.data.errors.name
+            ? error.response.data.data.errors.name[0]
+            : error.response.data.data.errors.permissions[0],
+        }),
+        {
+          position: "top-left",
+          type: "danger",
+        }
+      );
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -154,9 +161,7 @@ const onSubmit = async (data: any) => {
       console.log(error.request);
     } else {
       // Something happened in setting up the request that triggered an Error
-      console.log("Error", error.message);
     }
-    console.log(error.config);
   }
 
   useGeneralStore().toggleLoader(false);

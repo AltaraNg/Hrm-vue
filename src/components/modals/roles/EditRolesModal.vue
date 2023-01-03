@@ -98,7 +98,7 @@ permissionsList.splice(0, 1);
 const fetchPermissions = async () => {
   useGeneralStore().toggleLoader(true);
 
-  await get("/api/permissions")
+  await get("/api/permissions?per_page=100")
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
       let perIds = roleItem.value.permissions.map((item: any) => {

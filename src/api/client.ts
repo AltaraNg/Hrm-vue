@@ -67,9 +67,11 @@ export const del = (url: string) => {
 instance.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
+  console.log(error.response.status)
   if (error.response.status === 401) {
     useAuthStore().logout();
   }
+  return Promise.reject(error);
 })
 
 export const interceptors = (cb: any) =>
