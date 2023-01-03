@@ -56,7 +56,7 @@ const router = createRouter({
         },
         {
           path: '',
-          redirect: 'index'
+          redirect: 'roles'
         }
       ]
     },

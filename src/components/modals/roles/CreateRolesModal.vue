@@ -52,6 +52,7 @@
             v-for="(permission, index) in permissions"
             :permission="permission"
             :key="index"
+            :checked="permission.checked"
           ></PermissionComponent>
         </div>
 
@@ -85,6 +86,7 @@ import CustomizedMessage from "@/components/toast/CustomizedMessage.vue";
 
 const emit = defineEmits(["cancel"]);
 const permissions = ref();
+const formatPermissions = ref();
 const permissionsList = reactive([1]);
 
 permissionsList.splice(0, 1);
@@ -94,6 +96,9 @@ const fetchPermissions = () => {
   get("/api/permissions")
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
+      formatPermissions.value = permissions.value.map((item: any) => {
+        return (item.checked = false);
+      });
       useGeneralStore().toggleLoader(false);
     })
     .catch((err) => {
@@ -159,10 +164,12 @@ const onSubmit = async (data: any) => {
 
 const addToPermission = (perm: any) => {
   permissionsList.push(perm.id);
+  perm.checked = true;
 };
 const removeFromPermission = (perm: any) => {
   let index = permissionsList.indexOf(perm.id);
   index > -1 ? permissionsList.splice(index, 1) : "";
+  perm.checked = false;
 };
 const closeModal = () => {
   $vfm.hide("VCreateRolesModal").then(() => {});

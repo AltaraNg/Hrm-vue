@@ -61,7 +61,7 @@
             </tr>
           </tbody>
         </table>
-        <div class="absolute bottom-0 w-11/12">
+        <div class="absolute bottom-0 w-11/12" v-if="pageInfo.lastPage > 1">
           <PaginationComponent
             @fetchPage="fetchPage"
             @next="nextPage"
