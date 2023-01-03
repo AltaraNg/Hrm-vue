@@ -9,6 +9,7 @@
             <SearchComponent
               :filter-list="filterList"
               @submit="searchQuery"
+              @reset="resetQuery"
             ></SearchComponent>
           </div>
         </div>
@@ -106,13 +107,6 @@ const OId = ref(1);
 const filterList = ref([
   { id: 1, name: "Role Name", value: "name", type: "text" },
   { id: 2, name: "Permission", value: "permission", type: "text" },
-  {
-    id: 3,
-    name: "Status",
-    value: "name",
-    type: "select",
-    options: ["active", "inactive"],
-  },
 ]);
 
 const fetchRoles = async () => {
@@ -135,7 +129,7 @@ const fetchRoles = async () => {
 
 const searchQuery = async (query: any) => {
   useGeneralStore().toggleLoader(true);
-  await get("api/roles" + queryParams(query))
+  await get("api/roles" + queryParams({ per_page: 10, ...query }))
     .then((res) => {
       roles.value = res.data.data[0].roles;
       pageInfo.value = res.data.data[0].pagination;
@@ -144,6 +138,29 @@ const searchQuery = async (query: any) => {
       router.push({
         path: route.fullPath,
         query: { per_page: 10, ...query },
+      });
+    })
+    .catch((err) => {
+      loading.value = false;
+      createToast(err.response.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
+    });
+  useGeneralStore().toggleLoader(false);
+};
+
+const resetQuery = async () => {
+  useGeneralStore().toggleLoader(true);
+  await get("api/roles" + queryParams({ per_page: 10 }))
+    .then((res) => {
+      roles.value = res.data.data[0].roles;
+      pageInfo.value = res.data.data[0].pagination;
+      OId.value = (pageInfo.value.currentPage - 1) * 10 + 1;
+      loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10 },
       });
     })
     .catch((err) => {
@@ -332,8 +349,9 @@ const showCreateModal = () => {
       name: "VCreateRolesModal",
     },
     on: {
-      cancel() {
-        updateComponent();
+      cancel(item: any) {
+        let role = item.data.data.role;
+        roles.value.unshift(role);
       },
     },
   });

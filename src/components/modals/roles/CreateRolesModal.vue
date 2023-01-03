@@ -122,7 +122,7 @@ const onSubmit = async (data: any) => {
       );
       $vfm.hide("VCreateRolesModal").then(() => {});
 
-      emit("cancel");
+      emit("cancel", res);
     } else {
       createToast(
         withProps(CustomizedMessage, {

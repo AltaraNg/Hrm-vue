@@ -22,16 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 const props = defineProps<{
   permission?: any;
+  checked?: boolean;
 }>();
 const emit = defineEmits(["selected", "deselected"]);
-const checked = ref(false);
 const toggleCheck = (perm: any) => {
-  console.log(props);
-  checked.value = !checked.value;
-  checked.value ? emit("selected", perm) : emit("deselected", perm);
+  props.checked === false ? emit("selected", perm) : emit("deselected", perm);
 };
 </script>
 

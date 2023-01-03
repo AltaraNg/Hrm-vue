@@ -22,10 +22,7 @@ export const useAuthStore = defineStore("auth", {
                 localStorage.setItem('token', JSON.stringify(token));
                 this.user = user;
                 this.token = token;
-                createToast(withProps(CustomizedMessage, { message: "Login Successful" }), {
-                    position: "top-left",
-                    type: "success",
-                });
+                
                 router.push(this.returnUrl || '/');
             }).catch((err: any) => {
                 createToast(withProps(CustomizedMessage, { message: "Incorrect StaffId or Password entered" }), { type: "danger", position: "top-left" });

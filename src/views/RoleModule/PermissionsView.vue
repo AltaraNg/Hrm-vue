@@ -9,6 +9,7 @@
             <SearchComponent
               :filter-list="filterList"
               @submit="searchQuery"
+              @reset="resetQuery"
             ></SearchComponent>
           </div>
         </div>
@@ -135,7 +136,7 @@ const fetchPermissions = async () => {
 
 const searchQuery = async (query: any) => {
   useGeneralStore().toggleLoader(true);
-  await get("api/permissions" + queryParams(query))
+  await get("api/permissions" + queryParams({ per_page: 10, ...query }))
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
       pageInfo.value = res.data.data[0].pagination;
@@ -144,6 +145,28 @@ const searchQuery = async (query: any) => {
       router.push({
         path: route.fullPath,
         query: { per_page: 10, ...query },
+      });
+    })
+    .catch((err) => {
+      loading.value = false;
+      createToast(err.response.data.message, {
+        position: "top-left",
+        type: "danger",
+      });
+    });
+  useGeneralStore().toggleLoader(false);
+};
+const resetQuery = async () => {
+  useGeneralStore().toggleLoader(true);
+  await get("api/permissions" + queryParams({ per_page: 10 }))
+    .then((res) => {
+      permissions.value = res.data.data[0].permissions;
+      pageInfo.value = res.data.data[0].pagination;
+      OId.value = (pageInfo.value.currentPage - 1) * 10 + 1;
+      loading.value = false;
+      router.push({
+        path: route.fullPath,
+        query: { per_page: 10 },
       });
     })
     .catch((err) => {
@@ -182,8 +205,9 @@ const showCreateModal = () => {
       name: "VCreatePermissionModal",
     },
     on: {
-      cancel() {
-        fetchPermissions();
+      cancel(item: any) {
+        let permission = item.data.data.permission;
+        permissions.value.unshift(permission);
       },
     },
   });
@@ -199,10 +223,13 @@ const deletePermission = (permission: any) => {
       on: {
         confirm(param: any) {
           del(`/api/permissions/${param.item.id}`).then((res) => {
-            createToast(withProps(CustomizedMessage, { message: "Deleted Successfully" }), {
-              position: "top-left",
-              type: "success",
-            });
+            createToast(
+              withProps(CustomizedMessage, { message: "Deleted Successfully" }),
+              {
+                position: "top-left",
+                type: "success",
+              }
+            );
             updateComponent();
             param.method();
           });

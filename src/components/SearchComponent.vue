@@ -35,11 +35,18 @@
       </div>
 
       <button
-        class="bg-altara-blue py-2 rounded-lg text-white text-sm px-8"
+        class="bg-altara-blue py-2 rounded-lg text-white text-sm px-8 mx-1"
         v-if="inputList.length !== 0"
         @click="submitQuery"
       >
         Apply
+      </button>
+      <button
+        class="bg-altara-blue py-2 rounded-lg text-white text-sm px-8"
+        v-if="inputList.length !== 0"
+        @click="resetQuery"
+      >
+        Reset
       </button>
     </div>
     <div
@@ -76,7 +83,7 @@ defineProps<{
 const showModal = ref(false);
 const inputList: any = ref([]);
 const inputModel: any = ref({});
-const emit = defineEmits(["submit"]);
+const emit = defineEmits(["submit", "reset"]);
 
 const toggleModal = function () {
   showModal.value = !showModal.value;
@@ -84,6 +91,10 @@ const toggleModal = function () {
 
 const submitQuery = function () {
   emit("submit", inputModel.value);
+};
+const resetQuery = function () {
+  inputModel.value = {};
+  emit("reset");
 };
 </script>
 

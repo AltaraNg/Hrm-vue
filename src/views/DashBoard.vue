@@ -1,8 +1,10 @@
 <template>
   <div class="flex flex-row h-screen text-sm">
     <ModalsContainer></ModalsContainer>
+    <div class="sticky">
+      <SideNav></SideNav>
+    </div>
 
-    <SideNav></SideNav>
     <div class="w-5/6 pl-6 bg-white h-screen">
       <DashboardHeader class=""></DashboardHeader>
       <hr class="border-slate-50 mb-5" />

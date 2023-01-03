@@ -45,20 +45,8 @@
             message: 'text-red-500 text-xs',
           }"
         ></FormKit>
-        <div v-if="roleItem.permissions.length > 0" class="my-2">
-          <div>Role Permissions</div>
-          <div class="my-1 flex flex-wrap">
-            <PermissionComponent
-              @selected="addToPermission"
-              @deselected="removeFromPermission"
-              v-for="(permission, index) in roleItem.permissions"
-              :permission="permission"
-              :key="index"
-            ></PermissionComponent>
-          </div>
-        </div>
+
         <div>
-          <div>Available Permissions</div>
           <div class="my-1 flex flex-wrap">
             <PermissionComponent
               @selected="addToPermission"
@@ -66,6 +54,7 @@
               v-for="(permission, index) in permissions"
               :permission="permission"
               :key="index"
+              :checked="permission.checked"
             ></PermissionComponent>
           </div>
         </div>
@@ -100,16 +89,27 @@ import CustomizedMessage from "@/components/toast/CustomizedMessage.vue";
 
 const emit = defineEmits(["cancel"]);
 const permissions = ref();
+const formatPermissions = ref();
+
 const permissionsList = reactive([1]);
 const roleItem = ref($vfm.dynamicModals[0].params.item);
 
 permissionsList.splice(0, 1);
-const fetchPermissions = () => {
+const fetchPermissions = async () => {
   useGeneralStore().toggleLoader(true);
 
-  get("/api/permissions")
+  await get("/api/permissions")
     .then((res) => {
       permissions.value = res.data.data[0].permissions;
+      let perIds = roleItem.value.permissions.map((item: any) => {
+        return item.id;
+      });
+      permissionsList.push(...perIds);
+      formatPermissions.value = permissions.value.map((item: any) => {
+        if (perIds.includes(item.id)) {
+          return (item.checked = true);
+        } else return (item.checked = false);
+      });
       useGeneralStore().toggleLoader(false);
     })
     .catch((err) => {
@@ -158,10 +158,12 @@ async function onSubmit(data: any) {
 
 const addToPermission = (perm: any) => {
   permissionsList.push(perm.id);
+  perm.checked = true;
 };
 const removeFromPermission = (perm: any) => {
   let index = permissionsList.indexOf(perm.id);
   index > -1 ? permissionsList.splice(index, 1) : "";
+  perm.checked = false;
 };
 const closeModal = () => {
   $vfm.hide("VEditRolesModal").then(() => {});

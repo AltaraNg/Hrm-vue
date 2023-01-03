@@ -77,7 +77,7 @@ async function onSubmit(data: any) {
         position: "top-left",
         type: "success",
       });
-      emit("cancel");
+      emit("cancel", res);
       $vfm.hide("VCreatePermissionModal").then(() => {});
     } else {
       createToast("Permission already exists", {

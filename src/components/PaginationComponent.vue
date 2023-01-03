@@ -15,11 +15,11 @@
           ><input
             type="text"
             class="bg-orange-400 text-center border-0 outline-none py-1"
-            v-model="currentPage"
+            v-model="currentPageModel"
             size="2"
             maxlength="2"
             @change="
-              currentPage <= pageInfo.lastPage
+              currentPage <= pageInfo.lastPage && currentPage > 0
                 ? $emit('fetchPage', currentPage)
                 : ''
             "
@@ -37,11 +37,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 const props = defineProps<{
   pageInfo?: any;
 }>();
 const currentPage = ref(props.pageInfo.currentPage);
+
+const currentPageModel = computed({
+  get() {
+    return props.pageInfo.currentPage;
+  },
+  set(newValue) {
+    currentPage.value = newValue;
+  },
+});
 // const perPage = ref(props.pageInfo.perPage);
 </script>
 
