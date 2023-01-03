@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div my-2>
     <div v-if="loading"></div>
     <div class="font-outfit" v-else>
       <div class="flex justify-between">

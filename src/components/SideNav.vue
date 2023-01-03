@@ -1,18 +1,16 @@
 <template>
-  <div
-    class="font-outfit flex flex-col h-screen justify-between p-5 bg-sidebar-bg"
-  >
-    <div class="mt-4">
+  <div class="font-outfit flex flex-col justify-between p-5 relative">
+    <div class="mt-4 mx-auto">
       <div class="font-thin my-3">
         <span class="subtitle">Get Started</span>
       </div>
       <div class="my-3">
-        <RouterLink to="index" :active-class="'text-altara-blue font-bold'">
+        <div>
           <span class="mr-3"
             ><img src="../assets/element-equal.svg" class="inline" alt="icon"
           /></span>
           Dashboard
-        </RouterLink>
+        </div>
       </div>
 
       <div class="mt-10">
@@ -38,24 +36,14 @@
             </RouterLink>
           </li>
           <li class="my-2">
-            <RouterLink
-              :to="'people'"
-              :active-class="'text-altara-blue font-bold'"
-              ><img
-                src="../assets/note-add.svg"
-                class="inline mr-3"
-              />Employees</RouterLink
-            >
+            <div>
+              <img src="../assets/note-add.svg" class="inline mr-3" />Employees
+            </div>
           </li>
           <li class="my-2">
-            <RouterLink
-              to="accounting"
-              :active-class="'text-altara-blue font-bold'"
-              ><img
-                src="../assets/award.svg"
-                class="inline mr-3"
-              />Accounting</RouterLink
-            >
+            <div>
+              <img src="../assets/award.svg" class="inline mr-3" />Accounting
+            </div>
           </li>
           <!-- <li class="my-2">
             <RouterLink
@@ -71,7 +59,7 @@
       </div>
     </div>
 
-    <div class="justify-self-end">
+    <div class="fixed bottom-2 mx-auto left-16">
       <button
         class="bg-altara-blue text-white px-7 py-1 rounded-md text-sm"
         @click="auth.logout"

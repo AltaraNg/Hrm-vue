@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-row h-screen text-sm">
+  <div class="h-screen">
     <ModalsContainer></ModalsContainer>
-    <div class="sticky">
+    <div class="sticky w-2/12 float-left h-full bg-sidebar-bg">
       <SideNav></SideNav>
     </div>
 
-    <div class="w-5/6 pl-6 bg-white h-screen">
+    <div class="w-10/12 px-5 bg-white overflow-y-auto float-right h-full">
       <DashboardHeader class=""></DashboardHeader>
       <hr class="border-slate-50 mb-5" />
       <RouterView></RouterView>
