@@ -1,14 +1,39 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import { plugin, defaultConfig } from '@formkit/vue'
+import { generateClasses } from '@formkit/themes'
+import * as globalFunctions from '@/utilities/globalFunctions'
 
-import App from './App.vue'
-import router from './router'
+import App from "./App.vue";
+import router from "./router";
 
-import './assets/main.css'
+import { vfmPlugin } from 'vue-final-modal';
 
-const app = createApp(App)
 
-app.use(createPinia())
-app.use(router)
+import "./assets/main.css";
 
-app.mount('#app')
+const app = createApp(App);
+app.use(plugin, defaultConfig({
+    config: {
+        classes: generateClasses({
+            submit: {
+                input: 'bg-altara-blue w-full py-2 text-lg rounded text-white formkit-loading:bg-gray-300 ',
+
+            }
+        })
+    }
+}));
+app.provide('globalFunctions', globalFunctions);
+
+app.use(vfmPlugin({
+    key: '$vfm',
+    componentName: 'VueFinalModal',
+    dynamicContainerName: 'ModalsContainer'
+}));
+
+app.use(createPinia());
+app.use(router);
+app.use(createPinia());
+
+
+app.mount("#app");

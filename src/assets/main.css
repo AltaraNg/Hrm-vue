@@ -1,35 +1,22 @@
+
 @import './base.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+@font-face {
+  font-family: "OUTFIT";
+  src: url("../../fonts/Outfit/Outfit-VariableFont_wght.ttf");
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+@layer components {
+  .my-table-spacing {
+    border-spacing: theme("spacing.3");
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #ffffff;
+  outline: blue;
 }
